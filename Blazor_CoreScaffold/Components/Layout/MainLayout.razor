@@ -20,14 +20,16 @@
 
     <MudMainContent Class="dashboard-shell__main">
         <MudAppBar Elevation="0" Class="dashboard-shell__appbar">
-            <div class="dashboard-shell__appbar-inner">
+            <MudAppBarContent Class="dashboard-shell__appbar-start">
                 <MudIconButton Icon="@Icons.Material.Filled.Menu"
                                Color="Color.Inherit"
                                Variant="Variant.Text"
                                Size="Size.Medium"
                                OnClick="ToggleDrawer"
                                Class="dashboard-shell__menu-button" />
+            </MudAppBarContent>
 
+            <MudAppBarContent Position="End" Class="dashboard-shell__appbar-end">
                 <div class="dashboard-shell__top-actions">
                     <MudMenu Class="dashboard-shell__popover"
                              CloseMenuOnClick="false">
@@ -85,7 +87,7 @@
                         </ChildContent>
                     </MudMenu>
                 </div>
-            </div>
+            </MudAppBarContent>
         </MudAppBar>
 
         <MudContainer MaxWidth="MaxWidth.False" Class="dashboard-shell__content">

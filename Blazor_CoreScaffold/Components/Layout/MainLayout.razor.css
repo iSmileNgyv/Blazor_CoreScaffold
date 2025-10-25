@@ -23,12 +23,14 @@
     border-right: 1px solid var(--dashboard-border);
     background: linear-gradient(180deg, rgba(19, 127, 236, 0.08) 0%, rgba(19, 127, 236, 0) 45%),
         var(--dashboard-surface);
+    min-height: 100vh;
 }
 
 .dashboard-shell__drawer .mud-drawer-content {
     background: transparent;
     height: 100%;
     padding: 0;
+    display: flex;
 }
 
 .dashboard-shell__main {
@@ -44,15 +46,25 @@
     padding-inline: 1.5rem;
     border-bottom: 1px solid var(--dashboard-border);
     min-height: 72px;
+}
+
+.dashboard-shell__appbar .mud-toolbar-appbar {
+    width: 100%;
+    padding: 0;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.dashboard-shell__appbar-start {
     display: flex;
     align-items: center;
 }
 
-.dashboard-shell__appbar-inner {
-    width: 100%;
+.dashboard-shell__appbar-end {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    margin-left: auto;
 }
 
 .dashboard-shell__menu-button {
