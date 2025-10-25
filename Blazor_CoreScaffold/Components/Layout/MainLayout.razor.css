@@ -31,6 +31,7 @@
     height: 100%;
     padding: 0;
     display: flex;
+    flex-direction: column;
 }
 
 .dashboard-shell__main {
@@ -51,20 +52,13 @@
 .dashboard-shell__appbar .mud-toolbar-appbar {
     width: 100%;
     padding: 0;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1.5rem;
 }
 
-.dashboard-shell__appbar-start {
+.dashboard-shell__appbar-inner {
     display: flex;
     align-items: center;
-}
-
-.dashboard-shell__appbar-end {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
+    gap: 1rem;
+    width: 100%;
 }
 
 .dashboard-shell__menu-button {
@@ -79,11 +73,17 @@
     border-radius: 999px;
     background: var(--dashboard-surface-alt);
     border: 1px solid var(--dashboard-border);
-    margin-left: auto;
 }
 
 .dashboard-shell__icon-button {
     border-radius: 14px;
+}
+
+.dashboard-shell__badge .mud-badge-badge {
+    font-size: 0.65rem;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.2rem;
 }
 
 .dashboard-shell__popover {
