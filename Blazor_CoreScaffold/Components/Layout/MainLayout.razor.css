@@ -49,6 +49,18 @@
     gap: 1rem;
 }
 
+.dashboard-shell__appbar .mud-toolbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+}
+
+.dashboard-shell__appbar .mud-toolbar > .mud-spacer {
+    flex: 1 1 auto;
+}
+
 .dashboard-shell__menu-button {
     border-radius: 14px;
 }
