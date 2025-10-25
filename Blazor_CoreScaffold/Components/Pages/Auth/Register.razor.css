@@ -1,0 +1,189 @@
+.register-shell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 4rem 1.5rem 3.5rem;
+    background: radial-gradient(circle at top, rgba(19, 127, 236, 0.18), transparent 60%),
+                radial-gradient(circle at bottom, rgba(12, 18, 34, 0.85), #0a1320);
+    color: rgba(226, 232, 240, 0.92);
+}
+
+.register-card {
+    width: 100%;
+    max-width: 28rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem 2.25rem 2.25rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: linear-gradient(160deg, rgba(14, 22, 37, 0.92), rgba(9, 15, 26, 0.88));
+    box-shadow: 0 28px 55px rgba(5, 11, 22, 0.55);
+    backdrop-filter: blur(18px);
+}
+
+.register-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+}
+
+.register-card__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 999px;
+    background: rgba(19, 127, 236, 0.16);
+    color: #60a5ff;
+}
+
+.register-card__logo::deep .mud-icon-root {
+    font-size: 1.6rem;
+}
+
+.register-card__title {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.98);
+}
+
+.register-card__subtitle {
+    color: rgba(198, 210, 225, 0.75);
+    line-height: 1.6;
+    max-width: 22rem;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.register-input::deep .mud-input-root {
+    border-radius: 0.9rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(15, 23, 42, 0.55);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.register-input::deep .mud-input-root:hover {
+    border-color: rgba(96, 165, 250, 0.65);
+}
+
+.register-input::deep .mud-input-root.mud-input-focused {
+    border-color: #3c9cff;
+    box-shadow: 0 0 0 3px rgba(60, 156, 255, 0.24);
+}
+
+.register-input::deep .mud-input-root.mud-input-error {
+    border-color: #f87171;
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.25);
+}
+
+.register-input::deep .mud-input {
+    color: rgba(248, 250, 252, 0.95);
+}
+
+.register-input::deep .mud-input-label {
+    color: rgba(203, 213, 225, 0.75);
+    font-weight: 500;
+}
+
+.register-input::deep .mud-input-slot::placeholder {
+    color: rgba(148, 163, 184, 0.55);
+}
+
+.register-input::deep .mud-input-adornment-end,
+.register-input::deep .mud-input-adornment-inner-end {
+    color: rgba(148, 163, 184, 0.85);
+}
+
+.register-input::deep .mud-input-errors {
+    color: #fca5a5;
+    font-size: 0.75rem;
+    padding-top: 0.35rem;
+}
+
+.register-password-strength {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.register-password-strength__bar::deep .mud-progress-linear {
+    height: 0.4rem;
+    border-radius: 999px;
+    background-color: rgba(148, 163, 184, 0.2);
+}
+
+.register-password-strength__bar::deep .mud-progress-linear-bar {
+    border-radius: inherit;
+}
+
+.register-password-strength__label {
+    min-width: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(203, 213, 225, 0.8);
+}
+
+.register-submit {
+    margin-top: 0.5rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    background: linear-gradient(135deg, #137fec 0%, #3c9cff 100%) !important;
+    box-shadow: 0 22px 40px rgba(19, 127, 236, 0.28);
+    color: #fff !important;
+}
+
+.register-submit:hover {
+    background: linear-gradient(135deg, #2d8ef3 0%, #5aa8ff 100%) !important;
+}
+
+.register-link {
+    color: rgba(203, 213, 225, 0.85);
+}
+
+.register-link__anchor {
+    color: #60a5ff;
+    margin-left: 0.25rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 160ms ease;
+}
+
+.register-link__anchor:hover {
+    color: #8dc3ff;
+}
+
+.register-footer {
+    position: absolute;
+    bottom: 1.5rem;
+    width: 100%;
+    color: rgba(148, 163, 184, 0.7);
+}
+
+@media (max-width: 640px) {
+    .register-shell {
+        padding: 3rem 1.25rem 3.5rem;
+    }
+
+    .register-card {
+        padding: 2rem 1.75rem 2rem;
+        gap: 1.75rem;
+    }
+
+    .register-footer {
+        position: static;
+        margin-top: 2.5rem;
+    }
+}

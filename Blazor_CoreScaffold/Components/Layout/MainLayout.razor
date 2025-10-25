@@ -1,75 +1,75 @@
-﻿@inherits LayoutComponentBase
-@* Removed @rendermode InteractiveServer *@
+@inherits LayoutComponentBase
+@using MudBlazor
 
-<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" />
+<MudThemeProvider @ref="_mudThemeProvider"
+                  @bind-IsDarkMode="_isDarkMode"
+                  Theme="_dashboardTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    @* Application Bar (Top Header) - We keep it minimal as per the design *@
-    <MudAppBar Elevation="0" Dense="true" Class="mud-theme-dark"> @* Keeping dark theme consistent *@
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />
-        @* Add any AppBar actions if needed later, like notifications or settings icon *@
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
-    </MudAppBar>
-
-    @* Sidebar Drawer - Reverted Variant back to Persistent, using @bind-Open *@
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Never" Elevation="1" Variant="@DrawerVariant.Persistent">
-        @* Content will come from NavMenu component *@
+<MudLayout Class="dashboard-layout">
+    <MudDrawer @bind-Open="_drawerOpen"
+               Variant="DrawerVariant.Persistent"
+               Elevation="0"
+               Class="dashboard-layout__drawer">
         <NavMenu />
     </MudDrawer>
 
-    @* Main Content Area *@
-    <MudMainContent Class="mud-main-content-custom">
-        @* Remove the default top padding if AppBar is Dense or not present *@
-        @* MudContainer provides responsive max-width and padding *@
-        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-6 mb-6">
+    <MudMainContent Class="dashboard-layout__main">
+        <div class="dashboard-layout__main-inner">
             @Body
-        </MudContainer>
+        </div>
+        <DashboardFooter />
     </MudMainContent>
 </MudLayout>
 
-@* Blazor Error UI remains the same *@
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
 
-@* Optional: Custom CSS for layout adjustments *@
-<style>
-    .mud-main-content-custom {
-        /* Add custom padding if needed, MudContainer already adds padding */
-        /* padding: 24px; */
-    }
-    /* Ensure drawer content doesn't get AppBar color in dark mode */
-    .mud-drawer-content {
-       background-color: var(--mud-palette-surface);
-    }
-
-</style>
-
-
 @code {
     private MudThemeProvider? _mudThemeProvider;
-    public bool _isDarkMode = true; // Default to dark mode
-    bool _drawerOpen = true; // Keep sidebar open by default
+    private bool _isDarkMode = true;
+    private bool _drawerOpen = true;
 
-    void DrawerToggle()
+    private readonly MudTheme _dashboardTheme = new()
     {
-        _drawerOpen = !_drawerOpen;
-        // StateHasChanged(); // Should not be needed with @bind-Open
-    }
-
-    // Optional: Set theme based on system preference
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     if (firstRender && _mudThemeProvider != null)
-    //     {
-    //         _isDarkMode = await _mudThemeProvider.GetSystemPreference();
-    //         StateHasChanged();
-    //     }
-    // }
+        PaletteDark = new PaletteDark
+        {
+            Primary = "#137fec",
+            Background = "#101922",
+            Surface = "#1A242E",
+            DrawerBackground = "#1A242E",
+            AppbarBackground = "#101922",
+            TextPrimary = "#f9fafb",
+            TextSecondary = "#9ca3af",
+            Divider = "#324d67",
+            LinesDefault = "#324d67"
+        },
+        Palette = new Palette
+        {
+            Primary = "#137fec",
+            Background = "#f6f7f8",
+            Surface = "#ffffff",
+            DrawerBackground = "#ffffff",
+            AppbarBackground = "#f6f7f8",
+            TextPrimary = "#1f2937",
+            TextSecondary = "#6b7280",
+            Divider = "#e5e7eb",
+            LinesDefault = "#e5e7eb"
+        },
+        LayoutProperties = new LayoutProperties
+        {
+            DefaultBorderRadius = "12px"
+        },
+        Typography = new Typography
+        {
+            Default = new Default
+            {
+                FontFamily = new[] { "Inter", "sans-serif" }
+            }
+        }
+    };
 }
-
