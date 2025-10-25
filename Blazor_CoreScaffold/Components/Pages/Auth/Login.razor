@@ -1,31 +1,31 @@
-@using System.ComponentModel.DataAnnotations 
+@using System.ComponentModel.DataAnnotations
 @using Blazor_CoreScaffold.Components.Layout
 @page "/login"
 @layout LoginLayout
 @rendermode InteractiveServer
 <PageTitle>Admin Login</PageTitle>
-<MudGrid Spacing="0" Style="min-height: 100vh;">
+
+<MudGrid Spacing="0" Class="login-grid">
 
     @* Left Panel (Hidden on small screens) *@
-    <MudItem xs="0" lg="6" Class="d-none d-lg-flex flex-column align-center justify-center pa-12" Style="background-color: var(--mud-palette-surface); position: relative; overflow: hidden; border-right: 1px solid var(--mud-palette-lines-default);">
-        @* Optional: Add subtle gradient effect with custom CSS if needed *@
-        @* <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(19,127,236,0.1),rgba(255,255,255,0))]"></div> *@
-
-        <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mb-6" Style="width: 64px; height: 64px;">
-            <MudIcon Icon="@Icons.Material.Filled.Tune" Size="Size.Large"/>
-        </MudAvatar>
-        <MudText Typo="Typo.h4" GutterBottom="true" Style="color: var(--mud-palette-white);"><b>Admin Panel</b></MudText>
-        <MudText Typo="Typo.body1" Align="Align.Center" Style="color: var(--mud-palette-text-secondary); max-width: 384px;">
-            Secure access for administrators to manage the Java core project.
-        </MudText>
+    <MudItem xs="12" lg="6" Class="login-hero">
+        <div class="login-hero__content">
+            <div class="login-hero__logo">
+                <MudIcon Icon="@Icons.Material.Filled.Tune" Size="Size.Large" />
+            </div>
+            <MudText Typo="Typo.h4" GutterBottom="true" Class="login-hero__title">Admin Panel</MudText>
+            <MudText Typo="Typo.body1" Align="Align.Center" Class="login-hero__subtitle">
+                Secure access for administrators to manage the Java core project.
+            </MudText>
+        </div>
     </MudItem>
 
     @* Right Panel (Login Form) *@
-    <MudItem xs="12" lg="6" Class="d-flex align-center justify-center pa-6 pa-sm-12">
-        <MudPaper Elevation="0" Class="pa-4" MaxWidth="448px" Width="100%">
-            <MudText Typo="Typo.h5" GutterBottom="true"><b>Sign In</b></MudText>
+    <MudItem xs="12" lg="6" Class="login-form-column">
+        <MudPaper Elevation="0" Class="login-form-card" MaxWidth="448px" Width="100%">
+            <MudText Typo="Typo.h4" Class="login-form-title">Sign In</MudText>
 
-            <MudForm @ref="form" @bind-IsValid="@success" Class="mt-8">
+            <MudForm @ref="form" @bind-IsValid="@success" OnValidSubmit="SubmitLogin" Class="login-form">
                 <MudTextField T="string"
                               Label="Email Address"
                               @bind-Value="Email"
@@ -33,26 +33,34 @@
                               RequiredError="Email is required!"
                               Validation="@(new EmailAddressAttribute() { ErrorMessage = "The email address is invalid" })"
                               Variant="Variant.Outlined"
+                              Margin="Margin.None"
                               Adornment="Adornment.Start"
                               AdornmentIcon="@Icons.Material.Filled.Person"
-                              Class="mb-6" />
+                              Class="login-input" />
 
-                <MudTextField T="string"
-                              Label="Password"
-                              @bind-Value="Password"
-                              Required="true"
-                              RequiredError="Password is required!"
-                              InputType="@PasswordInput"
-                              Adornment="Adornment.Start"
-                              AdornmentIcon="@Icons.Material.Filled.Lock"
-                              AdornmentEnd="@(isShowPassword ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
-                              OnAdornmentClick="@TogglePasswordVisibility"
-                              Variant="Variant.Outlined"
-                              Class="mb-3" />
+                <div class="password-field">
+                    <MudTextField T="string"
+                                  Label="Password"
+                                  @bind-Value="Password"
+                                  Required="true"
+                                  RequiredError="Password is required!"
+                                  InputType="@PasswordInput"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.None"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Lock"
+                                  Class="login-input password-input" />
+                    <MudIconButton Icon="@PasswordVisibilityIcon"
+                                   OnClick="TogglePasswordVisibility"
+                                   Color="Color.Inherit"
+                                   Variant="Variant.Text"
+                                   Class="password-toggle"
+                                   AriaLabel="Toggle password visibility" />
+                </div>
 
-                <div class="d-flex flex-wrap justify-space-between align-center gap-2 mb-6">
-                    <MudCheckBox T="bool" @bind-Checked="RememberMe" Label="Remember me" Color="Color.Primary" Size="Size.Small" />
-                    <MudLink Href="#" Typo="Typo.body2">Forgot Password?</MudLink>
+                <div class="login-form__options">
+                    <MudCheckBox T="bool" @bind-Checked="RememberMe" Label="Remember me" Color="Color.Primary" Size="Size.Small" Class="login-form__remember" />
+                    <MudLink Href="#" Typo="Typo.body2" Class="login-form__forgot">Forgot Password?</MudLink>
                 </div>
 
                 <MudButton ButtonType="ButtonType.Submit"
@@ -60,12 +68,13 @@
                            Color="Color.Primary"
                            Size="Size.Large"
                            FullWidth="true"
-                           Disabled="@(!success)">
+                           Disabled="@(!success)"
+                           Class="login-submit">
                     Log In
                 </MudButton>
             </MudForm>
 
-            <MudText Typo="Typo.caption" Align="Align.Center" Class="mt-10" Style="color: var(--mud-palette-text-disabled);">
+            <MudText Typo="Typo.caption" Align="Align.Center" Class="login-footer">
                 © @DateTime.Now.Year Java Core Project. All Rights Reserved.
             </MudText>
         </MudPaper>
@@ -73,39 +82,3 @@
 
 </MudGrid>
 
-@* Optional: Custom CSS for background if needed *@
-@* <style> *@
-@* .dark-panel-background { *@
-@* background-color: var(--mud-palette-surface); /* Or choose a specific dark color */ *@
-@* /* Add radial gradient styles here if desired */ *@
-@* } *@
-@* </style> *@
-
-
-@code {
-    MudForm? form;
-    bool success;
-    string Email { get; set; } = "";
-    string Password { get; set; } = "";
-    bool RememberMe { get; set; } = false;
-
-    // Password visibility toggle
-    bool isShowPassword = false;
-    InputType PasswordInput = InputType.Password;
-
-    void TogglePasswordVisibility()
-    {
-        isShowPassword = !isShowPassword;
-        PasswordInput = isShowPassword ? InputType.Text : InputType.Password;
-    }
-
-    // TODO: Add actual login logic here
-    // private async Task SubmitLogin()
-    // {
-    //    await form.Validate();
-    //    if(success)
-    //    {
-    //        // Call your authentication service
-    //    }
-    // }
-}
