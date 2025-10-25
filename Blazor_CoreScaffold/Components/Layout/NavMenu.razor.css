@@ -1,11 +1,16 @@
 .dashboard-drawer {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
-    gap: 3rem;
     background: transparent;
     color: var(--dashboard-text-primary);
+}
+
+.dashboard-drawer__top {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    flex: 1 1 auto;
 }
 
 .dashboard-drawer__profile {
@@ -71,8 +76,18 @@
     color: var(--dashboard-primary);
 }
 
+.dashboard-drawer__bottom {
+    margin-top: auto;
+    padding-top: 2rem;
+    border-top: 1px solid var(--dashboard-border);
+}
+
 .dashboard-drawer__bottom .dashboard-drawer__link {
     color: var(--dashboard-text-secondary);
+}
+
+.dashboard-drawer__logout {
+    justify-content: flex-start;
 }
 
 :global(body.mud-theme-dark) .dashboard-drawer__link:hover {

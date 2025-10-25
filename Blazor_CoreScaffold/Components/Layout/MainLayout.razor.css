@@ -46,19 +46,13 @@
     min-height: 72px;
     display: flex;
     align-items: center;
-    gap: 1rem;
 }
 
-.dashboard-shell__appbar .mud-toolbar {
+.dashboard-shell__appbar-inner {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 1rem;
-    justify-content: flex-start;
-}
-
-.dashboard-shell__appbar .mud-toolbar > .mud-spacer {
-    flex: 1 1 auto;
 }
 
 .dashboard-shell__menu-button {
@@ -73,6 +67,7 @@
     border-radius: 999px;
     background: var(--dashboard-surface-alt);
     border: 1px solid var(--dashboard-border);
+    margin-left: auto;
 }
 
 .dashboard-shell__icon-button {
