@@ -4,117 +4,121 @@
 <PageTitle>System Health Dashboard</PageTitle>
 
 <div class="dashboard-page">
-    <header class="dashboard-header">
-        <div class="dashboard-header__titles">
-            <MudText Typo="Typo.h3" Class="dashboard-header__title">System Health Status</MudText>
-            <MudText Typo="Typo.body2" Class="dashboard-header__subtitle">Last Updated: @LastUpdated</MudText>
-        </div>
-        <div class="dashboard-header__status">
-            <span class="dashboard-header__status-indicator" />
-            <MudText Typo="Typo.body2" Class="dashboard-header__status-text">All Systems Operational</MudText>
-        </div>
-    </header>
+    <DashboardHeader Title="System Health Status"
+                     Subtitle="@($"Last Updated: {LastUpdated}")"
+                     StatusText="All Systems Operational"
+                     StatusAppearance="success" />
 
-    <section class="dashboard-stats">
-        <MudPaper Elevation="0" Class="dashboard-card">
-            <MudText Typo="Typo.body2" Class="dashboard-card__label">System Uptime</MudText>
-            <MudText Typo="Typo.h4" Class="dashboard-card__value">99.98%</MudText>
-            <MudText Typo="Typo.body2" Class="dashboard-card__delta dashboard-card__delta--positive">+0.01%</MudText>
-        </MudPaper>
-        <MudPaper Elevation="0" Class="dashboard-card">
-            <MudText Typo="Typo.body2" Class="dashboard-card__label">Database Status</MudText>
-            <MudText Typo="Typo.h4" Class="dashboard-card__value dashboard-card__value--success">Connected</MudText>
-            <MudText Typo="Typo.body2" Class="dashboard-card__meta">Avg Latency: 12ms</MudText>
-        </MudPaper>
-        <MudPaper Elevation="0" Class="dashboard-card">
-            <MudText Typo="Typo.body2" Class="dashboard-card__label">Message Broker</MudText>
-            <MudText Typo="Typo.h4" Class="dashboard-card__value dashboard-card__value--success">Healthy</MudText>
-            <MudText Typo="Typo.body2" Class="dashboard-card__meta">0 pending messages</MudText>
-        </MudPaper>
-    </section>
+    <MudGrid Spacing="3" Class="dashboard-metrics">
+        <MudItem xs="12" sm="6" lg="4">
+            <MudPaper Elevation="0" Class="dashboard-card">
+                <MudText Typo="Typo.body2" Class="dashboard-card__label">System Uptime</MudText>
+                <MudText Typo="Typo.h4" Class="dashboard-card__value">99.98%</MudText>
+                <MudText Typo="Typo.body2" Class="dashboard-card__delta dashboard-card__delta--positive">+0.01%</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" lg="4">
+            <MudPaper Elevation="0" Class="dashboard-card">
+                <MudText Typo="Typo.body2" Class="dashboard-card__label">Database Status</MudText>
+                <MudText Typo="Typo.h4" Class="dashboard-card__value dashboard-card__value--success">Connected</MudText>
+                <MudText Typo="Typo.body2" Class="dashboard-card__meta">Avg Latency: 12ms</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" lg="4">
+            <MudPaper Elevation="0" Class="dashboard-card">
+                <MudText Typo="Typo.body2" Class="dashboard-card__label">Message Broker</MudText>
+                <MudText Typo="Typo.h4" Class="dashboard-card__value dashboard-card__value--success">Healthy</MudText>
+                <MudText Typo="Typo.body2" Class="dashboard-card__meta">0 pending messages</MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
 
-    <section class="dashboard-charts">
-        <MudPaper Elevation="0" Class="dashboard-card dashboard-card--chart">
-            <MudText Typo="Typo.body2" Class="dashboard-card__label">API Response Times (p95)</MudText>
-            <MudText Typo="Typo.h4" Class="dashboard-card__value">128ms</MudText>
-            <div class="dashboard-card__trend">
-                <MudText Typo="Typo.body2" Class="dashboard-card__meta">Last Hour</MudText>
-                <MudText Typo="Typo.body2" Class="dashboard-card__delta dashboard-card__delta--negative">+2.1%</MudText>
-            </div>
-            <div class="dashboard-chart">
-                <svg viewBox="-3 0 478 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="chart-gradient-1" x1="236" x2="236" y1="1" y2="149" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#EF4444" stop-opacity="0.3" />
-                            <stop offset="1" stop-color="#EF4444" stop-opacity="0" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
-                          fill="url(#chart-gradient-1)" />
-                    <path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
-                          stroke="#EF4444" stroke-width="3" stroke-linecap="round" />
-                </svg>
-            </div>
-        </MudPaper>
-        <MudPaper Elevation="0" Class="dashboard-card dashboard-card--chart">
-            <MudText Typo="Typo.body2" Class="dashboard-card__label">CPU Usage</MudText>
-            <MudText Typo="Typo.h4" Class="dashboard-card__value">34%</MudText>
-            <div class="dashboard-card__trend">
-                <MudText Typo="Typo.body2" Class="dashboard-card__meta">Last Hour</MudText>
-                <MudText Typo="Typo.body2" Class="dashboard-card__delta dashboard-card__delta--positive">-5.3%</MudText>
-            </div>
-            <div class="dashboard-chart">
-                <svg viewBox="-3 0 478 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="chart-gradient-2" x1="236" x2="236" y1="1" y2="149" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#10B981" stop-opacity="0.3" />
-                            <stop offset="1" stop-color="#10B981" stop-opacity="0" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M0 72C18.1538 72 18.1538 125 36.3077 125C54.4615 125 54.4615 97 72.6154 97C90.7692 97 90.7692 41 108.923 41C127.077 41 127.077 89 145.231 89C163.385 89 163.385 24 181.538 24C199.692 24 199.692 68 217.846 68C236 68 236 99 254.154 99C272.308 99 272.308 34 290.462 34C308.615 34 308.615 1 326.769 1C344.923 1 344.923 55 363.077 55C381.231 55 381.231 22 399.385 22C417.538 22 417.538 87 435.692 87C453.846 87 453.846 111 472 111V149H0V72Z"
-                          fill="url(#chart-gradient-2)" />
-                    <path d="M0 72C18.1538 72 18.1538 125 36.3077 125C54.4615 125 54.4615 97 72.6154 97C90.7692 97 90.7692 41 108.923 41C127.077 41 127.077 89 145.231 89C163.385 89 163.385 24 181.538 24C199.692 24 199.692 68 217.846 68C236 68 236 99 254.154 99C272.308 99 272.308 34 290.462 34C308.615 34 308.615 1 326.769 1C344.923 1 344.923 55 363.077 55C381.231 55 381.231 22 399.385 22C417.538 22 417.538 87 435.692 87C453.846 87 453.846 111 472 111"
-                          stroke="#10B981" stroke-width="3" stroke-linecap="round" />
-                </svg>
-            </div>
-        </MudPaper>
-    </section>
+    <MudGrid Spacing="3" Class="dashboard-charts">
+        <MudItem xs="12" lg="6">
+            <MudPaper Elevation="0" Class="dashboard-card dashboard-card--chart">
+                <MudText Typo="Typo.body2" Class="dashboard-card__label">API Response Times (p95)</MudText>
+                <MudText Typo="Typo.h4" Class="dashboard-card__value">128ms</MudText>
+                <div class="dashboard-card__trend">
+                    <MudText Typo="Typo.body2" Class="dashboard-card__meta">Last Hour</MudText>
+                    <MudText Typo="Typo.body2" Class="dashboard-card__delta dashboard-card__delta--negative">+2.1%</MudText>
+                </div>
+                <div class="dashboard-chart">
+                    <svg viewBox="-3 0 478 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="chart-gradient-1" x1="236" x2="236" y1="1" y2="149" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#EF4444" stop-opacity="0.3" />
+                                <stop offset="1" stop-color="#EF4444" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z"
+                              fill="url(#chart-gradient-1)" />
+                        <path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25"
+                              stroke="#EF4444" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" lg="6">
+            <MudPaper Elevation="0" Class="dashboard-card dashboard-card--chart">
+                <MudText Typo="Typo.body2" Class="dashboard-card__label">CPU Usage</MudText>
+                <MudText Typo="Typo.h4" Class="dashboard-card__value">34%</MudText>
+                <div class="dashboard-card__trend">
+                    <MudText Typo="Typo.body2" Class="dashboard-card__meta">Last Hour</MudText>
+                    <MudText Typo="Typo.body2" Class="dashboard-card__delta dashboard-card__delta--positive">-5.3%</MudText>
+                </div>
+                <div class="dashboard-chart">
+                    <svg viewBox="-3 0 478 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="chart-gradient-2" x1="236" x2="236" y1="1" y2="149" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#10B981" stop-opacity="0.3" />
+                                <stop offset="1" stop-color="#10B981" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M0 72C18.1538 72 18.1538 125 36.3077 125C54.4615 125 54.4615 97 72.6154 97C90.7692 97 90.7692 41 108.923 41C127.077 41 127.077 89 145.231 89C163.385 89 163.385 24 181.538 24C199.692 24 199.692 68 217.846 68C236 68 236 99 254.154 99C272.308 99 272.308 34 290.462 34C308.615 34 308.615 1 326.769 1C344.923 1 344.923 55 363.077 55C381.231 55 381.231 22 399.385 22C417.538 22 417.538 87 435.692 87C453.846 87 453.846 111 472 111V149H0V72Z"
+                              fill="url(#chart-gradient-2)" />
+                        <path d="M0 72C18.1538 72 18.1538 125 36.3077 125C54.4615 125 54.4615 97 72.6154 97C90.7692 97 90.7692 41 108.923 41C127.077 41 127.077 89 145.231 89C163.385 89 163.385 24 181.538 24C199.692 24 199.692 68 217.846 68C236 68 236 99 254.154 99C272.308 99 272.308 34 290.462 34C308.615 34 308.615 1 326.769 1C344.923 1 344.923 55 363.077 55C381.231 55 381.231 22 399.385 22C417.538 22 417.538 87 435.692 87C453.846 87 453.846 111 472 111"
+                              stroke="#10B981" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
 
     <section class="dashboard-services">
-        <MudText Typo="Typo.h5" Class="dashboard-services__title">Critical Services</MudText>
+        <MudText Typo="Typo.h5" Class="dashboard-section-title">Critical Services</MudText>
         <MudPaper Elevation="0" Class="dashboard-services__list">
             <div class="dashboard-services__row">
                 <MudText Typo="Typo.body1" Class="dashboard-services__name">Authentication Service</MudText>
                 <div class="dashboard-services__status dashboard-services__status--success">
-                    <span class="dashboard-services__dot" />
+                    <span class="dashboard-services__dot"></span>
                     <MudText Typo="Typo.body2">Operational</MudText>
                 </div>
             </div>
             <div class="dashboard-services__row">
                 <MudText Typo="Typo.body1" Class="dashboard-services__name">Caching Layer (Redis)</MudText>
                 <div class="dashboard-services__status dashboard-services__status--success">
-                    <span class="dashboard-services__dot" />
+                    <span class="dashboard-services__dot"></span>
                     <MudText Typo="Typo.body2">Operational</MudText>
                 </div>
             </div>
             <div class="dashboard-services__row">
                 <MudText Typo="Typo.body1" Class="dashboard-services__name">Email Service</MudText>
                 <div class="dashboard-services__status dashboard-services__status--warning">
-                    <span class="dashboard-services__dot" />
+                    <span class="dashboard-services__dot"></span>
                     <MudText Typo="Typo.body2">Degraded Performance</MudText>
                 </div>
             </div>
             <div class="dashboard-services__row">
                 <MudText Typo="Typo.body1" Class="dashboard-services__name">Search Indexing</MudText>
                 <div class="dashboard-services__status dashboard-services__status--error">
-                    <span class="dashboard-services__dot" />
+                    <span class="dashboard-services__dot"></span>
                     <MudText Typo="Typo.body2">Outage</MudText>
                 </div>
             </div>
             <div class="dashboard-services__row">
                 <MudText Typo="Typo.body1" Class="dashboard-services__name">Background Jobs</MudText>
                 <div class="dashboard-services__status dashboard-services__status--success">
-                    <span class="dashboard-services__dot" />
+                    <span class="dashboard-services__dot"></span>
                     <MudText Typo="Typo.body2">Operational</MudText>
                 </div>
             </div>
