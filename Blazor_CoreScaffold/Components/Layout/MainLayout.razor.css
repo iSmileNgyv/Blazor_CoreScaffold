@@ -1,8 +1,8 @@
-.dashboard-layout {
+.dashboard-shell {
     --dashboard-background: #f6f7f8;
-    --dashboard-card-background: #ffffff;
     --dashboard-surface: #ffffff;
-    --dashboard-border: #e5e7eb;
+    --dashboard-surface-alt: #eef2f8;
+    --dashboard-border: rgba(15, 23, 42, 0.08);
     --dashboard-text-primary: #1f2937;
     --dashboard-text-secondary: #6b7280;
     --dashboard-status-green: #10B981;
@@ -10,74 +10,86 @@
     --dashboard-status-red: #EF4444;
     --dashboard-primary: #137fec;
     min-height: 100vh;
-    background-color: var(--dashboard-background);
-    color: var(--dashboard-text-primary);
     display: flex;
+    background: linear-gradient(140deg, rgba(19, 127, 236, 0.05) 0%, rgba(19, 127, 236, 0.0) 35%),
+        var(--dashboard-background);
+    color: var(--dashboard-text-primary);
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.dashboard-layout__drawer {
+.dashboard-shell__drawer {
     width: 256px;
     padding: 1.75rem 1.5rem;
     border-right: 1px solid var(--dashboard-border);
-    background-color: var(--dashboard-surface);
+    background: linear-gradient(180deg, rgba(19, 127, 236, 0.08) 0%, rgba(19, 127, 236, 0) 45%),
+        var(--dashboard-surface);
 }
 
-.dashboard-layout__drawer .mud-drawer-content {
-    background-color: transparent;
-    padding: 0;
+.dashboard-shell__drawer .mud-drawer-content {
+    background: transparent;
     height: 100%;
+    padding: 0;
 }
 
-.dashboard-layout__main {
+.dashboard-shell__main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    background-color: var(--dashboard-background);
+    background-color: transparent;
 }
 
-.dashboard-layout__main-inner {
+.dashboard-shell__content {
     flex: 1;
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
-    padding: 2.5rem 2rem 3rem;
+    padding: 3rem 2.5rem 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-@media (max-width: 1280px) {
-    .dashboard-layout__main-inner {
-        padding: 2rem 1.5rem 2.5rem;
+.dashboard-shell__content > .dashboard-page {
+    flex: 1;
+}
+
+:global(body.mud-theme-dark) .dashboard-shell {
+    --dashboard-background: #101922;
+    --dashboard-surface: #121c26;
+    --dashboard-surface-alt: #172534;
+    --dashboard-border: rgba(255, 255, 255, 0.08);
+    --dashboard-text-primary: #f9fafb;
+    --dashboard-text-secondary: #9ca3af;
+    background: radial-gradient(circle at top left, rgba(19, 127, 236, 0.18), transparent 55%),
+        #101922;
+}
+
+:global(body.mud-theme-dark) .dashboard-shell__drawer {
+    background: linear-gradient(180deg, rgba(19, 127, 236, 0.16) 0%, rgba(19, 127, 236, 0) 45%),
+        var(--dashboard-surface);
+}
+
+@media (max-width: 1200px) {
+    .dashboard-shell__content {
+        padding: 2.5rem 2rem 2rem;
     }
 }
 
-@media (max-width: 960px) {
-    .dashboard-layout__drawer {
+@media (max-width: 992px) {
+    .dashboard-shell__drawer {
         width: 220px;
         padding: 1.5rem 1.25rem;
     }
 }
 
 @media (max-width: 768px) {
-    .dashboard-layout {
+    .dashboard-shell {
         flex-direction: column;
     }
-}
 
-    .dashboard-layout__main-inner {
-        padding: 1.75rem 1.25rem 2rem;
+    .dashboard-shell__content {
+        padding: 2rem 1.5rem 1.75rem;
     }
-}
-
-:global(body.mud-theme-dark) .dashboard-layout {
-    --dashboard-background: #101922;
-    --dashboard-card-background: #1A242E;
-    --dashboard-surface: #1A242E;
-    --dashboard-border: #324d67;
-    --dashboard-text-primary: #f9fafb;
-    --dashboard-text-secondary: #9ca3af;
 }
 
 #blazor-error-ui {

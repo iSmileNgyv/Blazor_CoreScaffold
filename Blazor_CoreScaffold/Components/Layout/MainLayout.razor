@@ -2,22 +2,24 @@
 @using MudBlazor
 
 <MudThemeProvider @ref="_mudThemeProvider"
+                  Theme="_dashboardTheme"
                   @bind-IsDarkMode="_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout Class="dashboard-layout">
+<MudLayout Class="dashboard-shell">
     <MudDrawer @bind-Open="_drawerOpen"
                Variant="DrawerVariant.Persistent"
                Elevation="0"
-               Class="dashboard-layout__drawer">
+               Class="dashboard-shell__drawer">
         <NavMenu />
     </MudDrawer>
 
-    <MudMainContent Class="dashboard-layout__main">
-        <div class="dashboard-layout__main-inner">
+    <MudMainContent Class="dashboard-shell__main">
+        <MudContainer MaxWidth="MaxWidth.False" Class="dashboard-shell__content">
             @Body
-        </div>
+            <DashboardFooter />
+        </MudContainer>
     </MudMainContent>
 </MudLayout>
 
@@ -31,4 +33,40 @@
     private MudThemeProvider? _mudThemeProvider;
     private bool _isDarkMode = true;
     private bool _drawerOpen = true;
+
+    private readonly MudTheme _dashboardTheme = new()
+    {
+        PaletteLight = new PaletteLight
+        {
+            Primary = "#137fec",
+            Background = "#f6f7f8",
+            Surface = "#ffffff",
+            DrawerBackground = "#ffffff",
+            DrawerText = "#1f2937",
+            AppbarBackground = "#ffffff",
+            TextPrimary = "#1f2937",
+            TextSecondary = "#6b7280",
+            Success = "#10B981",
+            Warning = "#FBBF24",
+            Error = "#EF4444"
+        },
+        PaletteDark = new PaletteDark
+        {
+            Primary = "#137fec",
+            Background = "#101922",
+            Surface = "#1A242E",
+            DrawerBackground = "#121c26",
+            DrawerText = "#f9fafb",
+            AppbarBackground = "#1A242E",
+            TextPrimary = "#f9fafb",
+            TextSecondary = "#9ca3af",
+            Success = "#10B981",
+            Warning = "#FBBF24",
+            Error = "#EF4444"
+        },
+        LayoutProperties = new LayoutProperties
+        {
+            DefaultBorderRadius = "18px"
+        }
+    };
 }
