@@ -5,24 +5,21 @@
 @rendermode InteractiveServer
 <PageTitle>Admin Login</PageTitle>
 
-<MudGrid Spacing="0" Class="login-grid">
-
-    @* Left Panel (Hidden on small screens) *@
-    <MudItem xs="12" lg="6" Class="login-hero">
+<div class="login-shell">
+    <section class="login-hero">
         <div class="login-hero__content">
             <div class="login-hero__logo">
                 <MudIcon Icon="@Icons.Material.Filled.Tune" Size="Size.Large" />
             </div>
-            <MudText Typo="Typo.h4" GutterBottom="true" Class="login-hero__title">Admin Panel</MudText>
+            <MudText Typo="Typo.h4" Class="login-hero__title">Admin Panel</MudText>
             <MudText Typo="Typo.body1" Align="Align.Center" Class="login-hero__subtitle">
                 Secure access for administrators to manage the Java core project.
             </MudText>
         </div>
-    </MudItem>
+    </section>
 
-    @* Right Panel (Login Form) *@
-    <MudItem xs="12" lg="6" Class="login-form-column">
-        <MudPaper Elevation="0" Class="login-form-card" MaxWidth="448px" Width="100%">
+    <section class="login-panel">
+        <div class="login-panel__inner">
             <MudText Typo="Typo.h4" Class="login-form-title">Sign In</MudText>
 
             <MudForm @ref="form" @bind-IsValid="@success" OnValidSubmit="SubmitLogin" Class="login-form">
@@ -59,8 +56,15 @@
                 </div>
 
                 <div class="login-form__options">
-                    <MudCheckBox T="bool" @bind-Checked="RememberMe" Label="Remember me" Color="Color.Primary" Size="Size.Small" Class="login-form__remember" />
-                    <MudLink Href="#" Typo="Typo.body2" Class="login-form__forgot">Forgot Password?</MudLink>
+                    <MudCheckBox T="bool"
+                                 @bind-Checked="RememberMe"
+                                 Label="Remember me"
+                                 Color="Color.Primary"
+                                 Size="Size.Small"
+                                 Class="login-form__remember" />
+                    <MudLink Href="#"
+                             Typo="Typo.body2"
+                             Class="login-form__forgot">Forgot Password?</MudLink>
                 </div>
 
                 <MudButton ButtonType="ButtonType.Submit"
@@ -77,8 +81,6 @@
             <MudText Typo="Typo.caption" Align="Align.Center" Class="login-footer">
                 © @DateTime.Now.Year Java Core Project. All Rights Reserved.
             </MudText>
-        </MudPaper>
-    </MudItem>
-
-</MudGrid>
-
+        </div>
+    </section>
+</div>
