@@ -46,11 +46,21 @@
     min-height: 72px;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 .dashboard-shell__menu-button {
     border-radius: 14px;
+}
+
+.dashboard-shell__top-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 999px;
+    background: var(--dashboard-surface-alt);
+    border: 1px solid var(--dashboard-border);
 }
 
 .dashboard-shell__icon-button {
@@ -122,6 +132,11 @@
 
 :global(body.mud-theme-dark) .dashboard-shell__appbar {
     background-color: var(--dashboard-surface);
+}
+
+:global(body.mud-theme-dark) .dashboard-shell__top-actions {
+    background: var(--dashboard-surface-alt);
+    border-color: var(--dashboard-border);
 }
 
 @media (max-width: 1200px) {
