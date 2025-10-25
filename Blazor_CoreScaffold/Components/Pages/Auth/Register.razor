@@ -1,0 +1,213 @@
+@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions 
+@using Blazor_CoreScaffold.Components.Layout
+@page "/register"
+@layout LoginLayout
+@rendermode InteractiveServer
+<PageTitle>Admin Registration</PageTitle>
+<MudContainer MaxWidth="MaxWidth.False" Class="d-flex align-center justify-center mud-theme-dark pa-4" Style="min-height: 100vh;">
+    <MudPaper Elevation="0" Class="pa-8" MaxWidth="448px" Width="100%" Style="background: none;">
+        <div class="d-flex flex-column align-center mb-6">
+            <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" Color="Color.Primary" Size="Size.Large" />
+            <MudText Typo="Typo.h5" Class="mt-4 mb-2"><b>Create an Administrator Account</b></MudText>
+            <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary">Enter your details below to register.</MudText>
+        </div>
+
+        <MudForm @ref="form" @bind-IsValid="@success" Model="@model" ValidationDelay="0">
+            <MudTextField T="string"
+                          Label="Full Name"
+                          @bind-Value="model.FullName"
+                          For="@(() => model.FullName)"
+                          Required="true"
+                          RequiredError="Full name is required!"
+                          Variant="Variant.Outlined"
+                          Class="mb-4" />
+
+            <MudTextField T="string"
+                          Label="Email Address"
+                          @bind-Value="model.Email"
+                          For="@(() => model.Email)"
+                          Required="true"
+                          RequiredError="Email is required!"
+                          Validation="@(new EmailAddressAttribute() { ErrorMessage = "The email address is invalid" })"
+                          Variant="Variant.Outlined"
+                          Class="mb-4" />
+
+            <MudTextField T="string"
+                          Label="Username"
+                          @bind-Value="model.UserName"
+                          For="@(() => model.UserName)"
+                          Required="true"
+                          RequiredError="Username is required!"
+                          Variant="Variant.Outlined"
+                          Class="mb-4" />
+
+            <div>
+                <MudTextField T="string"
+                              Label="Password"
+                              @bind-Value="model.Password"
+                              For="@(() => model.Password)"
+                              Required="true"
+                              RequiredError="Password is required!"
+                              InputType="@PasswordInput"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@(isShowPassword ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                              OnAdornmentClick="@TogglePasswordVisibility"
+                              Variant="Variant.Outlined"
+                              Class="mb-1" />
+                @* Password Strength Indicator *@
+                <MudProgressLinear Color="@GetPasswordStrengthColor()" Value="@GetPasswordStrengthValue()" Class="my-1" />
+                <MudText Typo="Typo.caption" Align="Align.End" Style="@($"color: {GetPasswordStrengthColor().ToString().ToLower()};")">@GetPasswordStrengthLabel()</MudText>
+            </div>
+
+
+            <MudTextField T="string"
+                          Label="Confirm Password"
+                          @bind-Value="model.ConfirmPassword"
+                          For="@(() => model.ConfirmPassword)"
+                          Required="true"
+                          RequiredError="Please confirm password!"
+                          InputType="@ConfirmPasswordInput"
+                          Validation="@(PasswordMatch)"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@(isShowConfirmPassword ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                          OnAdornmentClick="@ToggleConfirmPasswordVisibility"
+                          Variant="Variant.Outlined"
+                          Class="mt-4 mb-4" />
+
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       FullWidth="true"
+                       Class="mt-4"
+                       Disabled="@(!success)">
+                Register
+            </MudButton>
+
+        </MudForm>
+
+        <MudText Align="Align.Center" Class="mt-6">
+            Already have an account? <MudLink Href="/login">Sign In</MudLink>
+        </MudText>
+
+    </MudPaper>
+     @* Footer - Positioning might need adjustment depending on overall structure *@
+    @* <MudText Typo="Typo.caption" Align="Align.Center" Style="position: absolute; bottom: 16px; color: var(--mud-palette-text-disabled);"> *@
+    @* © @DateTime.Now.Year ProjectName. All rights reserved. *@
+    @* </MudText> *@
+</MudContainer>
+
+
+@code {
+    MudForm? form;
+    bool success;
+    RegisterModel model = new RegisterModel();
+
+    // Password visibility
+    bool isShowPassword = false;
+    InputType PasswordInput = InputType.Password;
+
+    // Confirm Password visibility
+    bool isShowConfirmPassword = false;
+    InputType ConfirmPasswordInput = InputType.Password;
+
+    void TogglePasswordVisibility()
+    {
+        isShowPassword = !isShowPassword;
+        PasswordInput = isShowPassword ? InputType.Text : InputType.Password;
+    }
+
+    void ToggleConfirmPasswordVisibility()
+    {
+        isShowConfirmPassword = !isShowConfirmPassword;
+        ConfirmPasswordInput = isShowConfirmPassword ? InputType.Text : InputType.Password;
+    }
+
+    // Custom validation rule for matching passwords
+    private IEnumerable<string> PasswordMatch(string confirmPassword)
+    {
+        if (model.Password != confirmPassword)
+        {
+            yield return "Passwords do not match.";
+        }
+    }
+
+    // --- Password Strength Calculation (Example) ---
+    private double GetPasswordStrengthValue()
+    {
+        if (string.IsNullOrEmpty(model.Password)) return 0;
+        int score = CalculatePasswordScore(model.Password);
+        return (score / 4.0) * 100.0; // Scale score (0-4) to percentage (0-100)
+    }
+
+    private Color GetPasswordStrengthColor()
+    {
+        if (string.IsNullOrEmpty(model.Password)) return Color.Default;
+        int score = CalculatePasswordScore(model.Password);
+        if (score <= 1) return Color.Error;
+        if (score <= 2) return Color.Warning;
+        if (score <= 3) return Color.Info;
+        return Color.Success;
+    }
+
+    private string GetPasswordStrengthLabel()
+    {
+        if (string.IsNullOrEmpty(model.Password)) return "";
+        int score = CalculatePasswordScore(model.Password);
+        if (score <= 1) return "Weak";
+        if (score <= 2) return "Medium";
+        if (score <= 3) return "Strong";
+        return "Very Strong";
+    }
+
+    // Basic password score calculation (adjust regex and scoring as needed)
+    private int CalculatePasswordScore(string password)
+    {
+        int score = 0;
+        if (string.IsNullOrEmpty(password)) return 0; // Handle null or empty password
+        if (password.Length >= 8) score++;
+        // Use Regex.IsMatch only if password is not null/empty
+        if (Regex.IsMatch(password, @"[a-z]") && Regex.IsMatch(password, @"[A-Z]")) score++; // Lower and Upper case
+        if (Regex.IsMatch(password, @"[0-9]")) score++; // Numbers
+        if (Regex.IsMatch(password, @"[^a-zA-Z0-9]")) score++; // Special characters
+
+        // Optional: Penalize very short passwords even if they meet criteria
+        if (password.Length < 6) score = Math.Min(score, 1);
+
+        return score;
+    }
+
+
+    public class RegisterModel
+    {
+        [Required]
+        public string FullName { get; set; } = "";
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        public string UserName { get; set; } = "";
+
+        [Required]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+        public string Password { get; set; } = "";
+
+        [Required]
+        public string ConfirmPassword { get; set; } = "";
+    }
+
+    // TODO: Add actual registration logic here
+    // private async Task SubmitRegistration()
+    // {
+    //    await form.Validate();
+    //    if(success)
+    //    {
+    //        // Call your registration service
+    //    }
+    // }
+}
+

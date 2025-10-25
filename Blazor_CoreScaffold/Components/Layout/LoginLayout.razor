@@ -1,0 +1,24 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-0 ma-0" Style="min-height: 100vh;">
+    @Body
+</MudContainer>
+
+@code {
+    private MudThemeProvider? _mudThemeProvider;
+    private bool _isDarkMode = true; // Default to dark mode as per your HTML example
+
+    // Optional: Allow theme switching based on OS/browser preference
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender && _mudThemeProvider != null)
+    //     {
+    //         _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+    //         StateHasChanged();
+    //     }
+    // }
+}

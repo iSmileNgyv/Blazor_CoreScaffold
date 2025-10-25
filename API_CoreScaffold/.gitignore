@@ -1,0 +1,86 @@
+# ########################### #
+#  JetBrains (Rider) & Resharper
+# ########################### #
+# Rider-specific metadata
+.idea/
+
+# Resharper specific files
+_ReSharper*/
+*.resharper
+*.sln.DotSettings.user
+
+# ####################### #
+#  Visual Studio
+# ####################### #
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio 2019 cache/options
+.vs/
+# Visual Studio 2017 cache/options
+.vsconfig
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+
+#  .NET / Blazor
+Properties/PublishProfiles/
+Properties/launchSettings.json
+
+# Cache files
+*.cache
+
+# Secrets
+secrets.json
+
+# Paket cache
+.paket/paket.exe
+paket-files/
+
+# Package restore folders
+packages/
+*.nupkg
+*.nuget.props
+*.nuget.targets
+
+# Client-side dependency manager
+libman.json
+
+wwwroot/lib/
+
+# WebPDBs (gerekmiyorsa)
+*.web.pdb
+
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~

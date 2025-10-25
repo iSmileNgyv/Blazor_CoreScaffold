@@ -1,0 +1,75 @@
+﻿@inherits LayoutComponentBase
+@* Removed @rendermode InteractiveServer *@
+
+<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    @* Application Bar (Top Header) - We keep it minimal as per the design *@
+    <MudAppBar Elevation="0" Dense="true" Class="mud-theme-dark"> @* Keeping dark theme consistent *@
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        @* Add any AppBar actions if needed later, like notifications or settings icon *@
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+
+    @* Sidebar Drawer - Reverted Variant back to Persistent, using @bind-Open *@
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Never" Elevation="1" Variant="@DrawerVariant.Persistent">
+        @* Content will come from NavMenu component *@
+        <NavMenu />
+    </MudDrawer>
+
+    @* Main Content Area *@
+    <MudMainContent Class="mud-main-content-custom">
+        @* Remove the default top padding if AppBar is Dense or not present *@
+        @* MudContainer provides responsive max-width and padding *@
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-6 mb-6">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@* Blazor Error UI remains the same *@
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@* Optional: Custom CSS for layout adjustments *@
+<style>
+    .mud-main-content-custom {
+        /* Add custom padding if needed, MudContainer already adds padding */
+        /* padding: 24px; */
+    }
+    /* Ensure drawer content doesn't get AppBar color in dark mode */
+    .mud-drawer-content {
+       background-color: var(--mud-palette-surface);
+    }
+
+</style>
+
+
+@code {
+    private MudThemeProvider? _mudThemeProvider;
+    public bool _isDarkMode = true; // Default to dark mode
+    bool _drawerOpen = true; // Keep sidebar open by default
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+        // StateHasChanged(); // Should not be needed with @bind-Open
+    }
+
+    // Optional: Set theme based on system preference
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender && _mudThemeProvider != null)
+    //     {
+    //         _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+    //         StateHasChanged();
+    //     }
+    // }
+}
+
