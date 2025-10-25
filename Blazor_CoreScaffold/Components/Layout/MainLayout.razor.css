@@ -1,14 +1,25 @@
 .dashboard-layout {
+    --dashboard-background: #f6f7f8;
+    --dashboard-card-background: #ffffff;
+    --dashboard-surface: #ffffff;
+    --dashboard-border: #e5e7eb;
+    --dashboard-text-primary: #1f2937;
+    --dashboard-text-secondary: #6b7280;
+    --dashboard-status-green: #10B981;
+    --dashboard-status-yellow: #FBBF24;
+    --dashboard-status-red: #EF4444;
+    --dashboard-primary: #137fec;
     min-height: 100vh;
-    background-color: var(--mud-palette-background);
-    color: var(--mud-palette-text-primary);
+    background-color: var(--dashboard-background);
+    color: var(--dashboard-text-primary);
+    display: flex;
 }
 
 .dashboard-layout__drawer {
     width: 256px;
-    padding: 1.5rem 1.25rem;
-    border-right: 1px solid var(--mud-palette-divider);
-    background-color: var(--mud-palette-drawer-background);
+    padding: 1.75rem 1.5rem;
+    border-right: 1px solid var(--dashboard-border);
+    background-color: var(--dashboard-surface);
 }
 
 .dashboard-layout__drawer .mud-drawer-content {
@@ -18,18 +29,19 @@
 }
 
 .dashboard-layout__main {
+    flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--mud-palette-background);
+    background-color: var(--dashboard-background);
 }
 
 .dashboard-layout__main-inner {
     flex: 1;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 2.5rem 2rem 1.5rem;
+    padding: 2.5rem 2rem 3rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -37,13 +49,14 @@
 
 @media (max-width: 1280px) {
     .dashboard-layout__main-inner {
-        padding: 2rem 1.5rem 1.25rem;
+        padding: 2rem 1.5rem 2.5rem;
     }
 }
 
 @media (max-width: 960px) {
     .dashboard-layout__drawer {
         width: 220px;
+        padding: 1.5rem 1.25rem;
     }
 }
 
@@ -51,10 +64,20 @@
     .dashboard-layout {
         flex-direction: column;
     }
+}
 
     .dashboard-layout__main-inner {
-        padding: 1.5rem 1rem 1rem;
+        padding: 1.75rem 1.25rem 2rem;
     }
+}
+
+:global(body.mud-theme-dark) .dashboard-layout {
+    --dashboard-background: #101922;
+    --dashboard-card-background: #1A242E;
+    --dashboard-surface: #1A242E;
+    --dashboard-border: #324d67;
+    --dashboard-text-primary: #f9fafb;
+    --dashboard-text-secondary: #9ca3af;
 }
 
 #blazor-error-ui {

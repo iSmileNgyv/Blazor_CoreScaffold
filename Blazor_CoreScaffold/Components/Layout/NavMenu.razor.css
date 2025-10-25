@@ -3,20 +3,21 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    background: transparent;
-    color: var(--mud-palette-text-primary);
     gap: 2rem;
+    background: transparent;
+    color: var(--dashboard-text-primary);
 }
 
 .dashboard-nav__profile {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.875rem;
     padding: 0.5rem;
 }
 
 .dashboard-nav__avatar .mud-avatar-img {
     object-fit: cover;
+    border-radius: 50%;
 }
 
 .dashboard-nav__identity {
@@ -27,24 +28,24 @@
 
 .dashboard-nav__name {
     font-weight: 600;
-    color: var(--mud-palette-text-primary);
+    color: var(--dashboard-text-primary);
 }
 
 .dashboard-nav__email {
-    color: var(--mud-palette-text-secondary);
+    color: var(--dashboard-text-secondary);
 }
 
 .dashboard-nav__links {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.375rem;
 }
 
 .dashboard-nav__link {
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 0.75rem 0.875rem;
     font-weight: 500;
-    color: var(--mud-palette-text-secondary);
+    color: var(--dashboard-text-secondary);
     transition: background-color 150ms ease, color 150ms ease;
 }
 
@@ -54,22 +55,21 @@
 }
 
 .dashboard-nav__link:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: var(--mud-palette-text-primary);
+    background-color: rgba(17, 24, 39, 0.08);
+    color: var(--dashboard-text-primary);
 }
 
-.dashboard-nav__link.mud-nav-link-active,
-.dashboard-nav__link--active.mud-nav-link-active {
-    background-color: rgba(19, 127, 236, 0.15);
-    color: var(--mud-palette-primary);
+.dashboard-nav__link--active {
+    background-color: rgba(19, 127, 236, 0.12);
+    color: var(--dashboard-primary);
 }
 
-.dashboard-nav__link.mud-nav-link-active .mud-icon-root {
-    color: var(--mud-palette-primary);
+.dashboard-nav__link--active .mud-icon-root {
+    color: var(--dashboard-primary);
 }
 
 .dashboard-nav__divider {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--dashboard-border);
 }
 
 @media (max-width: 960px) {
@@ -78,15 +78,15 @@
     }
 
     .dashboard-nav__link {
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 0.65rem 0.75rem;
     }
 }
 
-:global(body:not(.mud-theme-dark)) .dashboard-nav__link:hover {
-    background-color: rgba(15, 23, 42, 0.08);
+:global(body.mud-theme-dark) .dashboard-nav__link:hover {
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
-:global(body:not(.mud-theme-dark)) .dashboard-nav__divider {
-    border-color: rgba(15, 23, 42, 0.08);
+:global(body.mud-theme-dark) .dashboard-nav__divider {
+    border-color: rgba(255, 255, 255, 0.08);
 }

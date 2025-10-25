@@ -1,6 +1,6 @@
 <MudPaper Elevation="0" Class="dashboard-nav">
     <div class="dashboard-nav__profile">
-        <MudAvatar Size="Size.Medium"
+        <MudAvatar Size="Size.Large"
                    Class="dashboard-nav__avatar"
                    Image="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1" />
         <div class="dashboard-nav__identity">
@@ -13,23 +13,26 @@
         <MudNavLink Href="/"
                     Match="NavLinkMatch.All"
                     Icon="@Icons.Material.Filled.Dashboard"
-                    IconColor="Color.Primary"
-                    Class="dashboard-nav__link dashboard-nav__link--active">
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
             Dashboard
         </MudNavLink>
         <MudNavLink Href="/services"
                     Icon="@Icons.Material.Filled.ToggleOn"
-                    Class="dashboard-nav__link">
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
             Services
         </MudNavLink>
         <MudNavLink Href="/logs"
                     Icon="@Icons.Material.Filled.History"
-                    Class="dashboard-nav__link">
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
             Logs
         </MudNavLink>
         <MudNavLink Href="/settings"
                     Icon="@Icons.Material.Filled.Settings"
-                    Class="dashboard-nav__link">
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
             Settings
         </MudNavLink>
     </MudNavMenu>
@@ -39,7 +42,8 @@
     <MudNavMenu Class="dashboard-nav__links">
         <MudNavLink Href="/logout"
                     Icon="@Icons.Material.Filled.Logout"
-                    Class="dashboard-nav__link">
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
             Logout
         </MudNavLink>
     </MudNavMenu>
