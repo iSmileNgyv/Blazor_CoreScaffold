@@ -1,0 +1,10 @@
+.dashboard-footer {
+    padding: 1rem 0 2rem;
+    display: flex;
+    justify-content: center;
+    color: var(--mud-palette-text-secondary);
+}
+
+.dashboard-footer__text {
+    color: var(--mud-palette-text-secondary);
+}
