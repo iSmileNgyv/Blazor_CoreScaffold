@@ -1,0 +1,10 @@
+<footer class="dashboard-footer">
+    <MudText Typo="Typo.caption" Align="Align.Center" Class="dashboard-footer__text">
+        @FooterText
+    </MudText>
+</footer>
+
+@code {
+    [Parameter]
+    public string FooterText { get; set; } = $"© {DateTime.Now.Year} ProjectName. All rights reserved.";
+}

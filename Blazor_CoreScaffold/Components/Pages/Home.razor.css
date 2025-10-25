@@ -1,0 +1,141 @@
+.dashboard-section {
+    display: block;
+}
+
+.stat-card,
+.chart-card,
+.service-card {
+    background: var(--mud-palette-surface);
+    border: 1px solid var(--mud-palette-divider);
+    border-radius: 16px;
+    padding: 1.75rem;
+    color: var(--mud-palette-text-primary);
+}
+
+.stat-card__label,
+.chart-card__label,
+.chart-card__caption,
+.stat-card__caption {
+    color: var(--mud-palette-text-secondary);
+}
+
+.stat-card__value {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.stat-card__value--success {
+    color: #10B981;
+}
+
+.stat-card__trend {
+    font-weight: 600;
+}
+
+.stat-card__trend--success {
+    color: #10B981;
+}
+
+.chart-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-height: 320px;
+}
+
+.chart-card__value {
+    font-weight: 700;
+}
+
+.chart-card__meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.chart-card__trend--error {
+    color: #EF4444;
+    font-weight: 600;
+}
+
+.chart-card__trend--success {
+    color: #10B981;
+    font-weight: 600;
+}
+
+.chart-card__visual svg {
+    width: 100%;
+    height: 100%;
+}
+
+.dashboard-section__title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--mud-palette-text-primary);
+    margin-bottom: 1rem;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.service-card__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.service-card__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.service-card__status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+}
+
+.service-card__status--success {
+    color: #10B981;
+}
+
+.service-card__status--success .service-card__status-dot {
+    background-color: #10B981;
+}
+
+.service-card__status--warning {
+    color: #FBBF24;
+}
+
+.service-card__status--warning .service-card__status-dot {
+    background-color: #FBBF24;
+}
+
+.service-card__status--error {
+    color: #EF4444;
+}
+
+.service-card__status--error .service-card__status-dot {
+    background-color: #EF4444;
+}
+
+@media (max-width: 600px) {
+    .stat-card,
+    .chart-card,
+    .service-card {
+        padding: 1.5rem;
+    }
+
+    .service-card__row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

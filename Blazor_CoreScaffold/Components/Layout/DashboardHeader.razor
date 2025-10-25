@@ -1,0 +1,33 @@
+<div class="dashboard-header">
+    <div class="dashboard-header__titles">
+        <MudText Typo="Typo.h3" Class="dashboard-header__title">@Title</MudText>
+        @if (!string.IsNullOrWhiteSpace(Subtitle))
+        {
+            <MudText Typo="Typo.body1" Class="dashboard-header__subtitle">@Subtitle</MudText>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(StatusText))
+    {
+        <div class="dashboard-header__status dashboard-header__status--@AppearanceClass">
+            <span class="dashboard-header__status-dot"></span>
+            <MudText Typo="Typo.body2" Class="dashboard-header__status-label">@StatusText</MudText>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Subtitle { get; set; } = string.Empty;
+
+    [Parameter]
+    public string StatusText { get; set; } = string.Empty;
+
+    [Parameter]
+    public string StatusAppearance { get; set; } = "success";
+
+    private string AppearanceClass => DashboardHeaderAppearance.Normalize(StatusAppearance);
+}
