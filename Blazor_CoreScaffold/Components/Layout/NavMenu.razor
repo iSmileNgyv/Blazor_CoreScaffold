@@ -1,70 +1,50 @@
-﻿@* Remove default top-row div if using MudLayout/MudDrawer *@
-@* <div class="top-row ps-3 navbar navbar-dark"> *@
-@* <div class="container-fluid"> *@
-@* <a class="navbar-brand" href="">Blazor_CoreScaffold</a> *@
-@* </div> *@
-@* </div> *@
-
-@* Remove default toggler if using MudLayout/MudDrawer *@
-@* <input type="checkbox" title="Navigation menu" class="navbar-toggler"/> *@
-
-
-<MudPaper Height="100%" Width="100%" Elevation="0" Class="d-flex flex-column justify-space-between pa-4 mud-drawer-custom">
-
-    <MudNavMenu Rounded="true" Class="mud-navmenu-custom">
-        @* User Info *@
-        <div class="d-flex pa-2 mb-4">
-            <MudAvatar Image="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1" />
-            <div class="ml-3">
-                <MudText Typo="Typo.body1"><b>Core Project Admin</b></MudText>
-                <MudText Typo="Typo.caption" Style="color: var(--mud-palette-text-secondary);">admin@coreproject.io</MudText>
-            </div>
+<MudPaper Elevation="0" Class="dashboard-nav">
+    <div class="dashboard-nav__profile">
+        <MudAvatar Size="Size.Large"
+                   Class="dashboard-nav__avatar"
+                   Image="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1" />
+        <div class="dashboard-nav__identity">
+            <MudText Typo="Typo.subtitle2" Class="dashboard-nav__name">Core Project Admin</MudText>
+            <MudText Typo="Typo.body2" Class="dashboard-nav__email">admin@coreproject.io</MudText>
         </div>
+    </div>
 
-        @* Navigation Links *@
-        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Primary" Class="active-nav-item">Dashboard</MudNavLink>
-        <MudNavLink Href="/services" Icon="@Icons.Material.Filled.ToggleOn">Services</MudNavLink> @* Assuming '/services' is the path *@
-        <MudNavLink Href="/logs" Icon="@Icons.Material.Filled.History">Logs</MudNavLink> @* Assuming '/logs' is the path *@
-        <MudNavLink Href="/settings" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink> @* Assuming '/settings' is the path *@
+    <MudNavMenu Class="dashboard-nav__links">
+        <MudNavLink Href="/"
+                    Match="NavLinkMatch.All"
+                    Icon="@Icons.Material.Filled.Dashboard"
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
+            Dashboard
+        </MudNavLink>
+        <MudNavLink Href="/services"
+                    Icon="@Icons.Material.Filled.ToggleOn"
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
+            Services
+        </MudNavLink>
+        <MudNavLink Href="/logs"
+                    Icon="@Icons.Material.Filled.History"
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
+            Logs
+        </MudNavLink>
+        <MudNavLink Href="/settings"
+                    Icon="@Icons.Material.Filled.Settings"
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
+            Settings
+        </MudNavLink>
     </MudNavMenu>
 
-    @* Logout Section *@
-    <MudNavMenu Rounded="true" Class="mud-navmenu-custom">
-        <MudNavLink Href="/logout" Icon="@Icons.Material.Filled.Logout">Logout</MudNavLink> @* Assuming '/logout' is the path *@
-    </MudNavMenu>
+    <MudDivider Class="dashboard-nav__divider" />
 
+    <MudNavMenu Class="dashboard-nav__links">
+        <MudNavLink Href="/logout"
+                    Icon="@Icons.Material.Filled.Logout"
+                    Class="dashboard-nav__link"
+                    ActiveClass="dashboard-nav__link--active">
+            Logout
+        </MudNavLink>
+    </MudNavMenu>
 </MudPaper>
-
-@* Optional: Custom CSS for NavMenu styling *@
-<style>
-    .mud-drawer-custom {
-        background-color: inherit !important; /* Make paper transparent to show drawer bg */
-    }
-
-    .mud-navmenu-custom .mud-nav-link {
-        color: var(--mud-palette-text-secondary);
-    }
-    .mud-navmenu-custom .mud-nav-link.active:not(.active-nav-item) { /* Avoid overriding specific active style */
-        color: var(--mud-palette-primary);
-        background-color: var(--mud-palette-action-default-hover); /* Light background for active */
-    }
-    .mud-navmenu-custom .mud-nav-link:hover {
-        background-color: var(--mud-palette-action-default-hover);
-    }
-
-    /* Specific style for the dashboard active item */
-    .mud-navmenu-custom .active-nav-item.active {
-        color: var(--mud-palette-primary);
-        background-color: var(--mud-palette-primary-lighten); /* Use a light primary color */
-    }
-    .mud-navmenu-custom .active-nav-item.active .mud-icon-root {
-        color: var(--mud-palette-primary); /* Ensure icon color matches text */
-    }
-
-    /* User info avatar adjustments if needed */
-    .mud-avatar img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-</style>
