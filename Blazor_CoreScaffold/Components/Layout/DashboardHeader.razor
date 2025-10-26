@@ -1,17 +1,17 @@
-<div class="dashboard-header">
-    <div class="dashboard-header__titles">
-        <MudText Typo="Typo.h3" Class="dashboard-header__title">@Title</MudText>
+<div class="dashboard-page__header">
+    <div class="dashboard-page__header-text">
+        <MudText Typo="Typo.h3" Class="dashboard-page__title">@Title</MudText>
         @if (!string.IsNullOrWhiteSpace(Subtitle))
         {
-            <MudText Typo="Typo.body1" Class="dashboard-header__subtitle">@Subtitle</MudText>
+            <MudText Typo="Typo.body2" Class="dashboard-page__subtitle">@Subtitle</MudText>
         }
     </div>
 
     @if (!string.IsNullOrWhiteSpace(StatusText))
     {
-        <div class="dashboard-header__status dashboard-header__status--@AppearanceClass">
-            <span class="dashboard-header__status-dot"></span>
-            <MudText Typo="Typo.body2" Class="dashboard-header__status-label">@StatusText</MudText>
+        <div class="dashboard-page__status dashboard-page__status--@AppearanceClass">
+            <span class="dashboard-page__status-dot"></span>
+            <MudText Typo="Typo.body2" Class="dashboard-page__status-text">@StatusText</MudText>
         </div>
     }
 </div>

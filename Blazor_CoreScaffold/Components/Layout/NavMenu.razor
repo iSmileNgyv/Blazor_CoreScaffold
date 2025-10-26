@@ -1,50 +1,55 @@
-<MudPaper Elevation="0" Class="dashboard-nav">
-    <div class="dashboard-nav__profile">
-        <MudAvatar Size="Size.Large"
-                   Class="dashboard-nav__avatar"
-                   Image="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1" />
-        <div class="dashboard-nav__identity">
-            <MudText Typo="Typo.subtitle2" Class="dashboard-nav__name">Core Project Admin</MudText>
-            <MudText Typo="Typo.body2" Class="dashboard-nav__email">admin@coreproject.io</MudText>
+@using MudBlazor
+
+<MudPaper Elevation="0" Class="dashboard-drawer">
+    <div class="dashboard-drawer__top">
+        <div class="dashboard-drawer__profile">
+            <MudAvatar Size="Size.Medium"
+                       Class="dashboard-drawer__avatar"
+                       ImageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1"
+                       Alt="Core Project Admin" />
+            <div class="dashboard-drawer__identity">
+                <MudText Typo="Typo.subtitle2" Class="dashboard-drawer__name">Core Project Admin</MudText>
+                <MudText Typo="Typo.caption" Class="dashboard-drawer__email">admin@coreproject.io</MudText>
+            </div>
         </div>
+
+        <MudNavMenu Class="dashboard-drawer__links">
+            <MudNavLink Href="/"
+                        Match="NavLinkMatch.All"
+                        Icon="@Icons.Material.Filled.Dashboard"
+                        Class="dashboard-drawer__link"
+                        ActiveClass="dashboard-drawer__link--active">
+                Dashboard
+            </MudNavLink>
+            <MudNavLink Href="/services"
+                        Icon="@Icons.Material.Filled.ToggleOn"
+                        Class="dashboard-drawer__link"
+                        ActiveClass="dashboard-drawer__link--active">
+                Services
+            </MudNavLink>
+            <MudNavLink Href="/logs"
+                        Icon="@Icons.Material.Filled.History"
+                        Class="dashboard-drawer__link"
+                        ActiveClass="dashboard-drawer__link--active">
+                Logs
+            </MudNavLink>
+            <MudNavLink Href="/settings"
+                        Icon="@Icons.Material.Filled.Settings"
+                        Class="dashboard-drawer__link"
+                        ActiveClass="dashboard-drawer__link--active">
+                Settings
+            </MudNavLink>
+        </MudNavMenu>
     </div>
 
-    <MudNavMenu Class="dashboard-nav__links">
-        <MudNavLink Href="/"
-                    Match="NavLinkMatch.All"
-                    Icon="@Icons.Material.Filled.Dashboard"
-                    Class="dashboard-nav__link"
-                    ActiveClass="dashboard-nav__link--active">
-            Dashboard
-        </MudNavLink>
-        <MudNavLink Href="/services"
-                    Icon="@Icons.Material.Filled.ToggleOn"
-                    Class="dashboard-nav__link"
-                    ActiveClass="dashboard-nav__link--active">
-            Services
-        </MudNavLink>
-        <MudNavLink Href="/logs"
-                    Icon="@Icons.Material.Filled.History"
-                    Class="dashboard-nav__link"
-                    ActiveClass="dashboard-nav__link--active">
-            Logs
-        </MudNavLink>
-        <MudNavLink Href="/settings"
-                    Icon="@Icons.Material.Filled.Settings"
-                    Class="dashboard-nav__link"
-                    ActiveClass="dashboard-nav__link--active">
-            Settings
-        </MudNavLink>
-    </MudNavMenu>
-
-    <MudDivider Class="dashboard-nav__divider" />
-
-    <MudNavMenu Class="dashboard-nav__links">
-        <MudNavLink Href="/logout"
-                    Icon="@Icons.Material.Filled.Logout"
-                    Class="dashboard-nav__link"
-                    ActiveClass="dashboard-nav__link--active">
-            Logout
-        </MudNavLink>
-    </MudNavMenu>
+    <div class="dashboard-drawer__bottom">
+        <MudNavMenu>
+            <MudNavLink Href="/logout"
+                        Icon="@Icons.Material.Filled.Logout"
+                        Class="dashboard-drawer__link dashboard-drawer__logout"
+                        ActiveClass="dashboard-drawer__link--active">
+                Logout
+            </MudNavLink>
+        </MudNavMenu>
+    </div>
 </MudPaper>

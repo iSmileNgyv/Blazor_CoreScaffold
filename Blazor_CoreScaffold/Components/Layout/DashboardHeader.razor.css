@@ -1,81 +1,93 @@
-.dashboard-header {
+.dashboard-page__header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
-.dashboard-header__titles {
+.dashboard-page__header-text {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.dashboard-header__title {
+.dashboard-page__title {
     font-weight: 800;
-    letter-spacing: -0.033em;
-    color: var(--mud-palette-text-primary);
+    letter-spacing: -0.035em;
+    color: var(--dashboard-text-primary);
 }
 
-.dashboard-header__subtitle {
-    color: var(--mud-palette-text-secondary);
+.dashboard-page__subtitle {
+    color: var(--dashboard-text-secondary);
 }
 
-.dashboard-header__status {
+.dashboard-page__status {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     border-radius: 9999px;
-    padding: 0.35rem 0.9rem;
+    padding: 0.6rem 1rem;
     font-weight: 600;
-    transition: background-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease;
 }
 
-.dashboard-header__status-dot {
+.dashboard-page__status-dot {
     width: 10px;
     height: 10px;
     border-radius: 9999px;
 }
 
-.dashboard-header__status-label {
+.dashboard-page__status-text {
     font-weight: 600;
 }
 
-.dashboard-header__status--success {
+.dashboard-page__status--success {
     background-color: rgba(16, 185, 129, 0.15);
     color: #10B981;
 }
 
-.dashboard-header__status--success .dashboard-header__status-dot {
+.dashboard-page__status--success .dashboard-page__status-dot {
     background-color: #10B981;
 }
 
-.dashboard-header__status--warning {
+.dashboard-page__status--warning {
     background-color: rgba(251, 191, 36, 0.18);
     color: #FBBF24;
 }
 
-.dashboard-header__status--warning .dashboard-header__status-dot {
+.dashboard-page__status--warning .dashboard-page__status-dot {
     background-color: #FBBF24;
 }
 
-.dashboard-header__status--error {
+.dashboard-page__status--error {
     background-color: rgba(239, 68, 68, 0.18);
     color: #EF4444;
 }
 
-.dashboard-header__status--error .dashboard-header__status-dot {
+.dashboard-page__status--error .dashboard-page__status-dot {
     background-color: #EF4444;
 }
 
 @media (max-width: 600px) {
-    .dashboard-header__title {
-        font-size: 1.75rem;
+    .dashboard-page__header {
+        gap: 1rem;
     }
 
-    .dashboard-header__status {
+    .dashboard-page__status {
         width: 100%;
         justify-content: center;
     }
+}
+
+:global(body.mud-theme-dark) .dashboard-page__status--success {
+    background-color: rgba(16, 185, 129, 0.22);
+}
+
+:global(body.mud-theme-dark) .dashboard-page__status--warning {
+    background-color: rgba(251, 191, 36, 0.26);
+}
+
+:global(body.mud-theme-dark) .dashboard-page__status--error {
+    background-color: rgba(239, 68, 68, 0.26);
 }
