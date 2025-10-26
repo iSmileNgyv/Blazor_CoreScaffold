@@ -1,107 +1,183 @@
 @inherits LayoutComponentBase
 @using MudBlazor
-@using System.Linq
 
-<MudThemeProvider @ref="_mudThemeProvider"
-                  Theme="_dashboardTheme"
+<MudThemeProvider @ref="_themeProvider"
+                  Theme="_theme"
                   @bind-IsDarkMode="_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudPopoverProvider />
 
-<MudLayout Class="dashboard-shell">
+<MudLayout Class="core-dashboard">
     <MudDrawer @bind-Open="_drawerOpen"
                Variant="DrawerVariant.Responsive"
-               Elevation="0"
                ClipMode="DrawerClipMode.Always"
-               Breakpoint="Breakpoint.Md"
-               Class="dashboard-shell__drawer">
+               Elevation="0"
+               Breakpoint="Breakpoint.Lg"
+               Class="core-dashboard__drawer">
         <NavMenu />
     </MudDrawer>
 
-    <MudMainContent Class="dashboard-shell__main">
-        <header class="dashboard-shell__topbar">
-            <MudIconButton Icon="@Icons.Material.Outlined.MenuOpen"
+    <MudMainContent Class="core-dashboard__main">
+        <MudAppBar Elevation="0"
+                   Dense="true"
+                   Class="core-dashboard__topbar">
+            <MudIconButton Icon="@(_drawerOpen ? Icons.Material.Outlined.MenuOpen : Icons.Material.Outlined.Menu)"
                            Color="Color.Inherit"
                            Variant="Variant.Text"
                            Size="Size.Medium"
                            OnClick="ToggleDrawer"
-                           Class="dashboard-shell__menu-button"
+                           Class="core-dashboard__menu-button"
                            AriaLabel="Toggle navigation" />
 
-            <div class="dashboard-shell__top-actions">
-                <MudMenu Class="dashboard-shell__popover"
-                         CloseMenuOnClick="false">
-                    <ActivatorContent>
-                        <MudBadge Content="@_messages.Count"
-                                  Color="Color.Primary"
-                                  Overlap="true"
-                                  Class="dashboard-shell__badge">
-                            <MudIconButton Icon="@Icons.Material.Outlined.Mail"
-                                           Color="Color.Inherit"
-                                           Variant="Variant.Text"
-                                           Size="Size.Medium"
-                                           Class="dashboard-shell__icon-button"
-                                           AriaLabel="Open messages" />
-                        </MudBadge>
-                    </ActivatorContent>
-                    <ChildContent>
-                        <MudPaper Class="dashboard-shell__menu-panel" Elevation="8">
-                            <MudText Typo="Typo.subtitle2" Class="dashboard-shell__menu-title">Messages</MudText>
-                            <MudList T="DashboardMessage" Dense="true" DisablePadding="true">
-                                @foreach (var message in _messages)
-                                {
-                                    <MudListItem T="DashboardMessage" Value="@message" DisableRipple="true">
-                                        <div class="dashboard-shell__menu-item">
-                                            <MudText Typo="Typo.body2" Class="dashboard-shell__menu-item-title">@message.From</MudText>
-                                            <MudText Typo="Typo.caption" Class="dashboard-shell__menu-item-meta">@message.Subject</MudText>
-                                        </div>
-                                    </MudListItem>
-                                }
-                            </MudList>
-                        </MudPaper>
-                    </ChildContent>
-                </MudMenu>
+            <MudSpacer />
 
-                <MudMenu Class="dashboard-shell__popover"
-                         CloseMenuOnClick="false">
-                    <ActivatorContent>
-                        <MudBadge Content="@_notifications.Count(n => n.IsCritical)"
-                                  Color="Color.Error"
-                                  Overlap="true"
-                                  Class="dashboard-shell__badge">
-                            <MudIconButton Icon="@Icons.Material.Outlined.Notifications"
-                                           Color="Color.Inherit"
-                                           Variant="Variant.Text"
-                                           Size="Size.Medium"
-                                           Class="dashboard-shell__icon-button"
-                                           AriaLabel="Open notifications" />
-                        </MudBadge>
-                    </ActivatorContent>
-                    <ChildContent>
-                        <MudPaper Class="dashboard-shell__menu-panel" Elevation="8">
-                            <MudText Typo="Typo.subtitle2" Class="dashboard-shell__menu-title">Notifications</MudText>
-                            <MudList T="DashboardNotification" Dense="true" DisablePadding="true">
-                                @foreach (var notification in _notifications)
-                                {
-                                    <MudListItem T="DashboardNotification" Value="@notification" DisableRipple="true">
-                                        <div class="dashboard-shell__menu-item">
-                                            <MudText Typo="Typo.body2" Class="dashboard-shell__menu-item-title">@notification.Title</MudText>
-                                            <MudText Typo="Typo.caption" Class="dashboard-shell__menu-item-meta">@notification.Timestamp</MudText>
+            <MudMenu Class="core-dashboard__popover"
+                     CloseMenuOnClick="false"
+                     AnchorOrigin="Origin.BottomRight"
+                     TransformOrigin="Origin.TopRight">
+                <ActivatorContent>
+                    <MudBadge Content="@_messages.Count"
+                              Color="Color.Primary"
+                              Overlap="true"
+                              MaxValue="9"
+                              Class="core-dashboard__badge">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Mail"
+                                       Color="Color.Inherit"
+                                       Variant="Variant.Text"
+                                       Size="Size.Medium"
+                                       Class="core-dashboard__icon-button"
+                                       AriaLabel="Open messages" />
+                    </MudBadge>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudPaper Class="core-dashboard__menu" Elevation="8">
+                        <header class="core-dashboard__menu-header">
+                            <MudText Typo="Typo.subtitle2">Messages</MudText>
+                            <MudLink Href="#" Class="core-dashboard__menu-action">Mark all as read</MudLink>
+                        </header>
+                        <MudList Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
+                            @foreach (var message in _messages)
+                            {
+                                <MudListItem Class="core-dashboard__menu-item" DisableRipple="true">
+                                    @if (!string.IsNullOrWhiteSpace(message.AvatarUrl))
+                                    {
+                                        <MudAvatar Size="Size.Medium" Class="core-dashboard__menu-avatar" ImageUrl="@message.AvatarUrl" Alt="@message.From" />
+                                    }
+                                    else
+                                    {
+                                        <MudAvatar Size="Size.Medium"
+                                                   Class="core-dashboard__menu-avatar core-dashboard__menu-avatar--initials"
+                                                   Color="Color.Primary">
+                                            @message.Initials
+                                        </MudAvatar>
+                                    }
+                                    <div class="core-dashboard__menu-body">
+                                        <div class="core-dashboard__menu-title">
+                                            <MudText Typo="Typo.body2">@message.From</MudText>
+                                            <MudText Typo="Typo.caption" Class="core-dashboard__menu-meta">@message.Timestamp</MudText>
                                         </div>
-                                    </MudListItem>
-                                }
-                            </MudList>
-                        </MudPaper>
-                    </ChildContent>
-                </MudMenu>
-            </div>
-        </header>
+                                        <MudText Typo="Typo.caption" Class="core-dashboard__menu-description">@message.Excerpt</MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                        <MudDivider Class="core-dashboard__menu-divider" />
+                        <MudLink Href="#" Class="core-dashboard__menu-footer">View All Messages</MudLink>
+                    </MudPaper>
+                </ChildContent>
+            </MudMenu>
 
-        <MudContainer MaxWidth="MaxWidth.False" Class="dashboard-shell__content">
+            <MudMenu Class="core-dashboard__popover"
+                     CloseMenuOnClick="false"
+                     AnchorOrigin="Origin.BottomRight"
+                     TransformOrigin="Origin.TopRight">
+                <ActivatorContent>
+                    <MudBadge Content="@_notifications.Count(n => n.Severity == NotificationSeverity.Critical)"
+                              Color="Color.Error"
+                              Overlap="true"
+                              MaxValue="9"
+                              Class="core-dashboard__badge">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Notifications"
+                                       Color="Color.Inherit"
+                                       Variant="Variant.Text"
+                                       Size="Size.Medium"
+                                       Class="core-dashboard__icon-button"
+                                       AriaLabel="Open notifications" />
+                    </MudBadge>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudPaper Class="core-dashboard__menu" Elevation="8">
+                        <header class="core-dashboard__menu-header">
+                            <MudText Typo="Typo.subtitle2">Notifications</MudText>
+                            <MudLink Href="#" Class="core-dashboard__menu-action">Mark all as read</MudLink>
+                        </header>
+                        <MudList Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
+                            @foreach (var notification in _notifications)
+                            {
+                                <MudListItem Class="core-dashboard__menu-item" DisableRipple="true">
+                                    <div class="core-dashboard__notification-icon core-dashboard__notification-icon--@notification.Severity.ToString().ToLowerInvariant()">
+                                        <MudIcon Icon="@GetNotificationIcon(notification.Severity)" />
+                                    </div>
+                                    <div class="core-dashboard__menu-body">
+                                        <div class="core-dashboard__menu-title">
+                                            <MudText Typo="Typo.body2">@notification.Title</MudText>
+                                            <MudText Typo="Typo.caption" Class="core-dashboard__menu-meta">@notification.Timestamp</MudText>
+                                        </div>
+                                        <MudText Typo="Typo.caption" Class="core-dashboard__menu-description">@notification.Details</MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                        <MudDivider Class="core-dashboard__menu-divider" />
+                        <MudLink Href="#" Class="core-dashboard__menu-footer">View All Notifications</MudLink>
+                    </MudPaper>
+                </ChildContent>
+            </MudMenu>
+
+            <MudMenu Class="core-dashboard__popover"
+                     AnchorOrigin="Origin.BottomRight"
+                     TransformOrigin="Origin.TopRight">
+                <ActivatorContent>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Inherit"
+                               Class="core-dashboard__profile">
+                        <MudAvatar Size="Size.Medium"
+                                   Class="core-dashboard__profile-avatar"
+                                   ImageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1"
+                                   Alt="Core Project Admin" />
+                        <MudIcon Icon="@Icons.Material.Outlined.ExpandMore" />
+                    </MudButton>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudPaper Class="core-dashboard__menu" Elevation="8">
+                        <MudList Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
+                            <MudListItem Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
+                                <MudIcon Icon="@Icons.Material.Outlined.Person" />
+                                <MudText Typo="Typo.body2">My Profile</MudText>
+                            </MudListItem>
+                            <MudListItem Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
+                                <MudIcon Icon="@Icons.Material.Outlined.Settings" />
+                                <MudText Typo="Typo.body2">Settings</MudText>
+                            </MudListItem>
+                            <MudDivider Class="core-dashboard__menu-divider" />
+                            <MudListItem Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
+                                <MudIcon Icon="@Icons.Material.Outlined.Logout" />
+                                <MudText Typo="Typo.body2">Logout</MudText>
+                            </MudListItem>
+                        </MudList>
+                    </MudPaper>
+                </ChildContent>
+            </MudMenu>
+        </MudAppBar>
+
+        <section class="core-dashboard__content">
             @Body
-            <DashboardFooter />
-        </MudContainer>
+        </section>
+
+        <DashboardFooter FooterText="@($"© {DateTime.Now.Year} Core Project. All rights reserved.")"
+                          SecondaryText=""
+                          RightContent="@<div class='core-footer__links'><MudLink Href='#' Class='core-footer__link'>Terms of Service</MudLink><MudLink Href='#' Class='core-footer__link'>Privacy Policy</MudLink></div>" />
     </MudMainContent>
 </MudLayout>
 
@@ -112,34 +188,20 @@
 </div>
 
 @code {
-    private MudThemeProvider? _mudThemeProvider;
+    private MudThemeProvider? _themeProvider;
     private bool _isDarkMode = true;
     private bool _drawerOpen = true;
 
-    private readonly IReadOnlyList<DashboardNotification> _notifications = new List<DashboardNotification>
-    {
-        new("API latency is trending up", "3 minutes ago", true),
-        new("New deploy finished successfully", "15 minutes ago", true),
-        new("Background jobs queue cleared", "32 minutes ago", false)
-    };
-
-    private readonly IReadOnlyList<DashboardMessage> _messages = new List<DashboardMessage>
-    {
-        new("Ops Team", "Can you review the new runbook?"),
-        new("Support", "Customer ticket #482 resolved."),
-        new("Automation", "Nightly report delivered to inbox."),
-    };
-
-    private readonly MudTheme _dashboardTheme = new()
+    private readonly MudTheme _theme = new()
     {
         PaletteLight = new PaletteLight
         {
             Primary = "#137fec",
             Background = "#f6f7f8",
             Surface = "#ffffff",
+            AppbarBackground = "#ffffff",
             DrawerBackground = "#ffffff",
             DrawerText = "#1f2937",
-            AppbarBackground = "#ffffff",
             TextPrimary = "#1f2937",
             TextSecondary = "#6b7280",
             Success = "#10B981",
@@ -151,9 +213,9 @@
             Primary = "#137fec",
             Background = "#101922",
             Surface = "#1A242E",
+            AppbarBackground = "#1A242E",
             DrawerBackground = "#121c26",
             DrawerText = "#f9fafb",
-            AppbarBackground = "#1A242E",
             TextPrimary = "#f9fafb",
             TextSecondary = "#9ca3af",
             Success = "#10B981",
@@ -162,13 +224,49 @@
         },
         LayoutProperties = new LayoutProperties
         {
-            DefaultBorderRadius = "18px"
+            DefaultBorderRadius = "14px"
+        },
+        Typography = new Typography
+        {
+            Default = new Default { FontFamily = new[] { "Inter", "Roboto", "Segoe UI", "sans-serif" } }
         }
+    };
+
+    private readonly IReadOnlyList<DashboardMessage> _messages = new List<DashboardMessage>
+    {
+        new("Alice Johnson", "Can you take a look at the latest project update?", "5 min ago", "https://lh3.googleusercontent.com/aida-public/AB6AXuA8RebrtcsaYfDvL89D-rx5Bj2qdeLV4bBlRe7824JaY2biHQpmT1FinCXFfdFaTCzTmOUA6miiVKJsl_IOANPtu8T7gF5T9ePPQzsE4_Gzmwtk0X1_ruxoFkw7urupmARyWsXmdAGgg_6k4bCYvpgIgoCvdq5O295aj1OnMMLwZWrivCkKP_W6S2EzTJ6KVoaJ2yiKZOZ4xyA7bWYpX6E55a4-3lVvYZiji0XztyzqKxbNbmPlFgR_A_nbbTVQq-JSCK4G_MOpDIdb"),
+        new("Bob Williams", "Meeting scheduled for 3 PM tomorrow. I've sent the invite.", "1 hour ago", "https://lh3.googleusercontent.com/aida-public/AB6AXuA1jEzDqqDv7Sem_B9hzzs3Ov-2d0Amj5dB-qcZ11STgt_SIBmSn8TEOf05wMVdaKQcfT8t-So3ms5-eb6KXMqizl2xbKA6fixaqTI3jyei3m7WPT9ysRu3l4CV1vhNU-2J0NyYcUIXz_XrQaNY84X1mt7KvIjL1iRbV0HOPxenJwEU5y2HubgCvNRBt-1xZhtlP7-mku82o_d1tDe4xyTLNo5OIZrgthTCJ4iG1bj6VcIGROd_6o0IAJYE6SK767iQb85ukvLiXI_x"),
+        new("Customer Support", "Your ticket #12345 has been updated.", "2 hours ago", null)
+    };
+
+    private readonly IReadOnlyList<DashboardNotification> _notifications = new List<DashboardNotification>
+    {
+        new("New User Registered", "A new user, 'john.doe@example.com', has registered.", "15 minutes ago", NotificationSeverity.Success),
+        new("System Alert", "High CPU usage detected on server 'web-01'.", "1 hour ago", NotificationSeverity.Critical),
+        new("Security Warning", "Unusual login attempt from a new location.", "3 hours ago", NotificationSeverity.Warning)
     };
 
     private void ToggleDrawer() => _drawerOpen = !_drawerOpen;
 
-    private record DashboardNotification(string Title, string Timestamp, bool IsCritical);
+    private static string GetNotificationIcon(NotificationSeverity severity) => severity switch
+    {
+        NotificationSeverity.Success => Icons.Material.Outlined.PersonAdd,
+        NotificationSeverity.Warning => Icons.Material.Outlined.Warning,
+        NotificationSeverity.Critical => Icons.Material.Outlined.Error,
+        _ => Icons.Material.Outlined.Notifications
+    };
 
-    private record DashboardMessage(string From, string Subject);
+    private record DashboardMessage(string From, string Excerpt, string Timestamp, string? AvatarUrl)
+    {
+        public string Initials => string.Join(string.Empty, From.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(x => x[0])).ToUpperInvariant();
+    }
+
+    private record DashboardNotification(string Title, string Details, string Timestamp, NotificationSeverity Severity);
+
+    private enum NotificationSeverity
+    {
+        Success,
+        Warning,
+        Critical
+    }
 }

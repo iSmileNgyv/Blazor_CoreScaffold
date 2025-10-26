@@ -1,135 +1,79 @@
-.dashboard-drawer {
+.side-nav {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: transparent;
-    color: var(--dashboard-text-primary);
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--core-text-primary);
 }
 
-.dashboard-drawer__top {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem; /* Further reduced gap */
-    flex: 1 1 auto;
-    /* Removed padding-top: 0.5rem; to reduce top space */
-}
-
-.dashboard-drawer__profile {
+.side-nav__brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem; /* Slightly reduced gap */
-    padding: 0.25rem 0.25rem 0.75rem; /* Reduced bottom padding */
-    border-bottom: 1px solid var(--dashboard-border); /* Add separator */
-    margin-bottom: 0.75rem; /* Reduced space below profile */
+    gap: 0.75rem;
+    padding: 0 0.5rem;
 }
 
-.dashboard-drawer__avatar .mud-avatar {
-    border-radius: 12px; /* Match other elements */
+.side-nav__brand-icon {
+    font-size: 2rem;
+    color: var(--core-primary);
 }
 
-.dashboard-drawer__avatar .mud-avatar-img {
-    object-fit: cover;
+.side-nav__title {
+    font-weight: 700;
+    color: var(--core-text-primary);
 }
 
-.dashboard-drawer__identity {
+.side-nav__subtitle {
+    color: var(--core-text-secondary);
+}
+
+.side-nav__menu {
     display: flex;
     flex-direction: column;
-    gap: 0; /* No gap needed */
-    overflow: hidden; /* Prevent text overflow */
+    gap: 0.25rem;
+    padding: 0;
 }
 
-.dashboard-drawer__name {
-    font-weight: 600;
-    font-size: 0.9rem; /* Slightly smaller name */
-    color: var(--dashboard-text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.dashboard-drawer__email {
-    font-size: 0.75rem; /* Smaller email */
-    color: var(--dashboard-text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.dashboard-drawer__links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem; /* Tighter link spacing */
-    margin-top: 0; /* Remove top margin */
-}
-
-.dashboard-drawer__link {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem; /* Consistent gap */
-    border-radius: 12px; /* Consistent rounding */
-    padding: 0.65rem 0.85rem; /* Adjusted padding */
+.side-nav__link {
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    color: var(--core-text-secondary);
     font-weight: 500;
-    font-size: 0.9rem; /* Slightly smaller font */
-    color: var(--dashboard-text-secondary);
-    transition: background-color 140ms ease, color 140ms ease;
-    text-decoration: none; /* Ensure no underline */
 }
 
-.dashboard-drawer__link .mud-icon-root {
-    font-size: 1.35rem; /* Slightly smaller icons */
-    margin: 0; /* Reset MudBlazor margin if any */
+.side-nav__link .mud-nav-link-text {
+    font-size: 0.95rem;
 }
 
-.dashboard-drawer__link:hover {
-    background-color: var(--dashboard-surface-alt);
-    color: var(--dashboard-text-primary);
+.side-nav__link .mud-nav-link-icon {
+    margin-right: 0.75rem;
+    color: inherit;
 }
 
-.dashboard-drawer__link--active {
-    background: var(--dashboard-primary-light);
-    color: var(--dashboard-primary);
-    font-weight: 600; /* Bolder active link */
+.side-nav__link:hover {
+    background: var(--core-surface-alt);
+    color: var(--core-primary);
 }
 
-.dashboard-drawer__link--active .mud-icon-root {
-    color: var(--dashboard-primary);
+.side-nav__link--active {
+    background: rgba(19, 127, 236, 0.12);
+    color: var(--core-primary);
+    font-weight: 600;
 }
 
-.dashboard-drawer__bottom {
-    margin-top: auto; /* Push to bottom */
-    padding-bottom: 0.1rem; /* Minimal bottom padding */
-    /* Remove border and background adjustments */
+.side-nav__link--logout {
+    color: var(--core-text-secondary);
 }
 
-.dashboard-drawer__bottom .dashboard-drawer__link {
-    color: var(--dashboard-text-secondary);
+.side-nav__logout {
+    padding: 0 0.5rem;
 }
 
-.dashboard-drawer__logout {
-    justify-content: flex-start;
+:global(body.mud-theme-dark) .side-nav__link:hover {
+    background: rgba(255, 255, 255, 0.06);
 }
 
-/* Dark Theme Adjustments */
-:global(body.mud-theme-dark) .dashboard-drawer__link:hover {
-    background-color: var(--dashboard-surface-alt);
-    color: var(--dashboard-text-primary);
+:global(body.mud-theme-dark) .side-nav__link--active {
+    background: rgba(88, 166, 255, 0.16);
 }
-
-:global(body.mud-theme-dark) .dashboard-drawer__link--active {
-    background: var(--dashboard-primary-light);
-    color: var(--dashboard-primary);
-}
-
-/* Responsive */
-@media (max-width: 960px) {
-    .dashboard-drawer__profile {
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem;
-    }
-    .dashboard-drawer__link {
-        border-radius: 10px;
-        padding: 0.6rem 0.75rem;
-        gap: 0.75rem;
-    }
-}
-

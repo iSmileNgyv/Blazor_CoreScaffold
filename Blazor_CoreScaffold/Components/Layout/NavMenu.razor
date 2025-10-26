@@ -1,55 +1,66 @@
 @using MudBlazor
 
-<MudPaper Elevation="0" Class="dashboard-drawer">
-    <div class="dashboard-drawer__top">
-        <div class="dashboard-drawer__profile">
-            <MudAvatar Size="Size.Medium"
-                       Class="dashboard-drawer__avatar"
-                       ImageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAb3rKm-68LV6d9jH2crGhZ-SHMxVKP0wBizNFaEzoa0gSYPRrpVnDjEwio2QSeQJ8fA03aUz6KimvbXdklZkPHHvjfo8VaScIPXrL0S2p1S7p1qmeIHOfuc0hkM6dbepjRTxhCorP71AiskdTzaCt88jtMeY4GK8dvxYRgwheJGSk8tKknOANrZjZdKNQKCjsLT6xVne-1T5JmC1eBpKE-aTPh4m4RDF-XovNrTC8CGwfekbUcOXeRSXf4zIcpD-VClZu-YEUDx8P1"
-                       Alt="Core Project Admin" />
-            <div class="dashboard-drawer__identity">
-                <MudText Typo="Typo.subtitle2" Class="dashboard-drawer__name">Core Project Admin</MudText>
-                <MudText Typo="Typo.caption" Class="dashboard-drawer__email">admin@coreproject.io</MudText>
-            </div>
+<nav class="side-nav">
+    <div class="side-nav__brand">
+        <MudIcon Icon="@Icons.Material.Outlined.Hub" Class="side-nav__brand-icon" />
+        <div class="side-nav__brand-text">
+            <MudText Typo="Typo.subtitle1" Class="side-nav__title">Core Project</MudText>
+            <MudText Typo="Typo.caption" Class="side-nav__subtitle">Operations Console</MudText>
         </div>
-
-        <MudNavMenu Class="dashboard-drawer__links">
-            <MudNavLink Href="/"
-                        Match="NavLinkMatch.All"
-                        Icon="@Icons.Material.Filled.Dashboard"
-                        Class="dashboard-drawer__link"
-                        ActiveClass="dashboard-drawer__link--active">
-                Dashboard
-            </MudNavLink>
-            <MudNavLink Href="/services"
-                        Icon="@Icons.Material.Filled.ToggleOn"
-                        Class="dashboard-drawer__link"
-                        ActiveClass="dashboard-drawer__link--active">
-                Services
-            </MudNavLink>
-            <MudNavLink Href="/logs"
-                        Icon="@Icons.Material.Filled.History"
-                        Class="dashboard-drawer__link"
-                        ActiveClass="dashboard-drawer__link--active">
-                Logs
-            </MudNavLink>
-            <MudNavLink Href="/settings"
-                        Icon="@Icons.Material.Filled.Settings"
-                        Class="dashboard-drawer__link"
-                        ActiveClass="dashboard-drawer__link--active">
-                Settings
-            </MudNavLink>
-        </MudNavMenu>
     </div>
 
-    <div class="dashboard-drawer__bottom">
-        <MudNavMenu>
-            <MudNavLink Href="/logout"
-                        Icon="@Icons.Material.Filled.Logout"
-                        Class="dashboard-drawer__link dashboard-drawer__logout"
-                        ActiveClass="dashboard-drawer__link--active">
-                Logout
-            </MudNavLink>
-        </MudNavMenu>
+    <MudNavMenu Class="side-nav__menu">
+        <MudNavLink Href="/"
+                    Match="NavLinkMatch.All"
+                    Icon="@Icons.Material.Outlined.Dashboard"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            Dashboard
+        </MudNavLink>
+        <MudNavLink Href="/users"
+                    Icon="@Icons.Material.Outlined.Group"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            User Management
+        </MudNavLink>
+        <MudNavLink Href="/roles"
+                    Icon="@Icons.Material.Outlined.ManageAccounts"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            Role Management
+        </MudNavLink>
+        <MudNavLink Href="/logs"
+                    Icon="@Icons.Material.Outlined.History"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            System Logs
+        </MudNavLink>
+        <MudNavLink Href="/health"
+                    Icon="@Icons.Material.Outlined.HealthAndSafety"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            Health Check
+        </MudNavLink>
+        <MudNavLink Href="/settings"
+                    Icon="@Icons.Material.Outlined.Settings"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            Settings
+        </MudNavLink>
+        <MudNavLink Href="/translations"
+                    Icon="@Icons.Material.Outlined.Translate"
+                    Class="side-nav__link"
+                    ActiveClass="side-nav__link--active">
+            Translation Management
+        </MudNavLink>
+    </MudNavMenu>
+
+    <div class="side-nav__logout">
+        <MudNavLink Href="/logout"
+                    Icon="@Icons.Material.Outlined.Logout"
+                    Class="side-nav__link side-nav__link--logout"
+                    ActiveClass="side-nav__link--active">
+            Logout
+        </MudNavLink>
     </div>
-</MudPaper>
+</nav>
