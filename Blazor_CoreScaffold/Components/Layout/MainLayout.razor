@@ -21,87 +21,83 @@
 
     <MudMainContent Class="dashboard-shell__main">
         <MudAppBar Elevation="0" Class="dashboard-shell__appbar" DisableGutters="true">
-            <MudToolbarRow Class="dashboard-shell__appbar-row">
-                <div class="dashboard-shell__appbar-left">
-                    <MudIconButton Icon="@Icons.Material.Outlined.MenuOpen"
-                                   Color="Color.Inherit"
-                                   Variant="Variant.Text"
-                                   Size="Size.Medium"
-                                   OnClick="ToggleDrawer"
-                                   Class="dashboard-shell__menu-button"
-                                   AriaLabel="Toggle navigation" />
-                </div>
+            <MudIconButton Icon="@Icons.Material.Outlined.MenuOpen"
+                           Color="Color.Inherit"
+                           Variant="Variant.Text"
+                           Size="Size.Medium"
+                           OnClick="ToggleDrawer"
+                           Class="dashboard-shell__menu-button"
+                           AriaLabel="Toggle navigation" />
 
-                <div class="dashboard-shell__appbar-right">
-                    <div class="dashboard-shell__top-actions">
-                        <MudMenu Class="dashboard-shell__popover"
-                                 CloseMenuOnClick="false">
-                            <ActivatorContent>
-                            <MudBadge Content="@_messages.Count"
-                                      Color="Color.Primary"
-                                      Overlap="true"
-                                      Class="dashboard-shell__badge">
-                                <MudIconButton Icon="@Icons.Material.Outlined.Mail"
-                                               Color="Color.Inherit"
-                                               Variant="Variant.Text"
-                                               Size="Size.Medium"
-                                               Class="dashboard-shell__icon-button"
-                                               AriaLabel="Open messages" />
-                            </MudBadge>
-                        </ActivatorContent>
-                        <ChildContent>
-                            <MudPaper Class="dashboard-shell__menu-panel" Elevation="8">
-                                <MudText Typo="Typo.subtitle2" Class="dashboard-shell__menu-title">Messages</MudText>
-                                <MudList T="DashboardMessage" Dense="true" DisablePadding="true">
-                                    @foreach (var message in _messages)
-                                    {
-                                        <MudListItem T="DashboardMessage" Value="@message" DisableRipple="true">
-                                            <div class="dashboard-shell__menu-item">
-                                                <MudText Typo="Typo.body2" Class="dashboard-shell__menu-item-title">@message.From</MudText>
-                                                <MudText Typo="Typo.caption" Class="dashboard-shell__menu-item-meta">@message.Subject</MudText>
-                                            </div>
-                                        </MudListItem>
-                                    }
-                                </MudList>
-                            </MudPaper>
-                        </ChildContent>
-                    </MudMenu>
+            <MudSpacer />
 
-                    <MudMenu Class="dashboard-shell__popover"
-                             CloseMenuOnClick="false">
-                        <ActivatorContent>
-                            <MudBadge Content="@_notifications.Count(n => n.IsCritical)"
-                                      Color="Color.Error"
-                                      Overlap="true"
-                                      Class="dashboard-shell__badge">
-                                <MudIconButton Icon="@Icons.Material.Outlined.Notifications"
-                                               Color="Color.Inherit"
-                                               Variant="Variant.Text"
-                                               Size="Size.Medium"
-                                               Class="dashboard-shell__icon-button"
-                                               AriaLabel="Open notifications" />
-                            </MudBadge>
-                        </ActivatorContent>
-                        <ChildContent>
-                            <MudPaper Class="dashboard-shell__menu-panel" Elevation="8">
-                                <MudText Typo="Typo.subtitle2" Class="dashboard-shell__menu-title">Notifications</MudText>
-                                <MudList T="DashboardNotification" Dense="true" DisablePadding="true">
-                                    @foreach (var notification in _notifications)
-                                    {
-                                        <MudListItem T="DashboardNotification" Value="@notification" DisableRipple="true">
-                                            <div class="dashboard-shell__menu-item">
-                                                <MudText Typo="Typo.body2" Class="dashboard-shell__menu-item-title">@notification.Title</MudText>
-                                                <MudText Typo="Typo.caption" Class="dashboard-shell__menu-item-meta">@notification.Timestamp</MudText>
-                                            </div>
-                                        </MudListItem>
-                                    }
-                                </MudList>
-                            </MudPaper>
-                        </ChildContent>
-                    </MudMenu>
-                    </div>
-                </div>
-            </MudToolbarRow>
+            <div class="dashboard-shell__top-actions">
+                <MudMenu Class="dashboard-shell__popover"
+                         CloseMenuOnClick="false">
+                    <ActivatorContent>
+                        <MudBadge Content="@_messages.Count"
+                                  Color="Color.Primary"
+                                  Overlap="true"
+                                  Class="dashboard-shell__badge">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Mail"
+                                           Color="Color.Inherit"
+                                           Variant="Variant.Text"
+                                           Size="Size.Medium"
+                                           Class="dashboard-shell__icon-button"
+                                           AriaLabel="Open messages" />
+                        </MudBadge>
+                    </ActivatorContent>
+                    <ChildContent>
+                        <MudPaper Class="dashboard-shell__menu-panel" Elevation="8">
+                            <MudText Typo="Typo.subtitle2" Class="dashboard-shell__menu-title">Messages</MudText>
+                            <MudList T="DashboardMessage" Dense="true" DisablePadding="true">
+                                @foreach (var message in _messages)
+                                {
+                                    <MudListItem T="DashboardMessage" Value="@message" DisableRipple="true">
+                                        <div class="dashboard-shell__menu-item">
+                                            <MudText Typo="Typo.body2" Class="dashboard-shell__menu-item-title">@message.From</MudText>
+                                            <MudText Typo="Typo.caption" Class="dashboard-shell__menu-item-meta">@message.Subject</MudText>
+                                        </div>
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        </MudPaper>
+                    </ChildContent>
+                </MudMenu>
+
+                <MudMenu Class="dashboard-shell__popover"
+                         CloseMenuOnClick="false">
+                    <ActivatorContent>
+                        <MudBadge Content="@_notifications.Count(n => n.IsCritical)"
+                                  Color="Color.Error"
+                                  Overlap="true"
+                                  Class="dashboard-shell__badge">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Notifications"
+                                           Color="Color.Inherit"
+                                           Variant="Variant.Text"
+                                           Size="Size.Medium"
+                                           Class="dashboard-shell__icon-button"
+                                           AriaLabel="Open notifications" />
+                        </MudBadge>
+                    </ActivatorContent>
+                    <ChildContent>
+                        <MudPaper Class="dashboard-shell__menu-panel" Elevation="8">
+                            <MudText Typo="Typo.subtitle2" Class="dashboard-shell__menu-title">Notifications</MudText>
+                            <MudList T="DashboardNotification" Dense="true" DisablePadding="true">
+                                @foreach (var notification in _notifications)
+                                {
+                                    <MudListItem T="DashboardNotification" Value="@notification" DisableRipple="true">
+                                        <div class="dashboard-shell__menu-item">
+                                            <MudText Typo="Typo.body2" Class="dashboard-shell__menu-item-title">@notification.Title</MudText>
+                                            <MudText Typo="Typo.caption" Class="dashboard-shell__menu-item-meta">@notification.Timestamp</MudText>
+                                        </div>
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        </MudPaper>
+                    </ChildContent>
+                </MudMenu>
+            </div>
         </MudAppBar>
 
         <MudContainer MaxWidth="MaxWidth.False" Class="dashboard-shell__content">
