@@ -1,20 +1,55 @@
-<div class="dashboard-page__header">
-    <div class="dashboard-page__header-text">
-        <MudText Typo="Typo.h3" Class="dashboard-page__title">@Title</MudText>
+@using MudBlazor
+
+<header class="dashboard-header">
+    <div class="dashboard-header__primary">
+        @if (!string.IsNullOrWhiteSpace(ContextLabel))
+        {
+            <div class="dashboard-header__context">
+                <MudIcon Icon="@ContextIcon" Class="dashboard-header__context-icon" />
+                <MudText Typo="Typo.caption" Class="dashboard-header__context-text">@ContextLabel</MudText>
+            </div>
+        }
+
+        <MudText Typo="Typo.h3" Class="dashboard-header__title">@Title</MudText>
+
         @if (!string.IsNullOrWhiteSpace(Subtitle))
         {
-            <MudText Typo="Typo.body2" Class="dashboard-page__subtitle">@Subtitle</MudText>
+            <MudText Typo="Typo.body2" Class="dashboard-header__subtitle">@Subtitle</MudText>
         }
     </div>
 
-    @if (!string.IsNullOrWhiteSpace(StatusText))
-    {
-        <div class="dashboard-page__status dashboard-page__status--@AppearanceClass">
-            <span class="dashboard-page__status-dot"></span>
-            <MudText Typo="Typo.body2" Class="dashboard-page__status-text">@StatusText</MudText>
-        </div>
-    }
-</div>
+    <div class="dashboard-header__meta">
+        @if (!string.IsNullOrWhiteSpace(StatusText))
+        {
+            <div class="dashboard-header__status dashboard-header__status--@AppearanceClass">
+                <div class="dashboard-header__status-indicator">
+                    <MudIcon Icon="@StatusIcon" Class="dashboard-header__status-icon" />
+                </div>
+                <div class="dashboard-header__status-text">
+                    <MudText Typo="Typo.body2" Class="dashboard-header__status-label">@StatusText</MudText>
+                    @if (!string.IsNullOrWhiteSpace(StatusCaption))
+                    {
+                        <MudText Typo="Typo.caption" Class="dashboard-header__status-caption">@StatusCaption</MudText>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Actions is not null)
+        {
+            <div class="dashboard-header__actions">
+                @Actions
+            </div>
+        }
+    </div>
+</header>
+
+@if (Description is not null)
+{
+    <div class="dashboard-header__description">
+        @Description
+    </div>
+}
 
 @code {
     [Parameter]
@@ -27,7 +62,24 @@
     public string StatusText { get; set; } = string.Empty;
 
     [Parameter]
+    public string StatusCaption { get; set; } = string.Empty;
+
+    [Parameter]
     public string StatusAppearance { get; set; } = "success";
 
+    [Parameter]
+    public RenderFragment? Actions { get; set; }
+
+    [Parameter]
+    public RenderFragment? Description { get; set; }
+
+    [Parameter]
+    public string ContextLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ContextIcon { get; set; } = Icons.Material.Outlined.Shield;
+
     private string AppearanceClass => DashboardHeaderAppearance.Normalize(StatusAppearance);
+
+    private string StatusIcon => DashboardHeaderAppearance.GetIcon(AppearanceClass);
 }

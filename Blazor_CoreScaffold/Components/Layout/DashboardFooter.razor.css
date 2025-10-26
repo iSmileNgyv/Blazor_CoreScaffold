@@ -1,10 +1,109 @@
 .dashboard-footer {
-    padding: 1.5rem 0 2.5rem;
+    margin-top: 3rem;
+    padding: 1.75rem 0 2.5rem;
     display: flex;
     justify-content: center;
-    border-top: 1px solid var(--dashboard-border);
 }
 
-.dashboard-footer__text {
+.dashboard-footer__content {
+    width: min(960px, 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.35rem 1.75rem;
+    border-radius: 18px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: linear-gradient(120deg, rgba(148, 163, 184, 0.18), rgba(255, 255, 255, 0.6));
+    box-shadow: 0 24px 48px -42px rgba(15, 23, 42, 0.45);
+}
+
+.dashboard-footer__branding {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dashboard-footer__badge {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(19, 127, 236, 0.2), rgba(19, 127, 236, 0.35));
+    color: #fff;
+    box-shadow: 0 12px 24px -16px rgba(19, 127, 236, 0.75);
+}
+
+.dashboard-footer__badge-icon {
+    font-size: 1.3rem;
+}
+
+.dashboard-footer__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.dashboard-footer__title {
+    font-weight: 600;
+    color: var(--dashboard-text-primary);
+}
+
+.dashboard-footer__subtitle {
     color: var(--dashboard-text-secondary);
+}
+
+.dashboard-footer__links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--dashboard-text-secondary);
+}
+
+.dashboard-footer__links a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.dashboard-footer__links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .dashboard-footer__content {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .dashboard-footer__branding {
+        justify-content: center;
+    }
+
+    .dashboard-footer__links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+:global(body.mud-theme-dark) .dashboard-footer__content {
+    border-color: rgba(148, 163, 184, 0.18);
+    background: linear-gradient(120deg, rgba(30, 41, 59, 0.85), rgba(17, 24, 39, 0.85));
+    box-shadow: 0 24px 48px -42px rgba(0, 0, 0, 0.7);
+}
+
+:global(body.mud-theme-dark) .dashboard-footer__badge {
+    background: linear-gradient(135deg, rgba(19, 127, 236, 0.4), rgba(59, 130, 246, 0.65));
+}
+
+:global(body.mud-theme-dark) .dashboard-footer__title {
+    color: rgba(226, 232, 240, 0.92);
+}
+
+:global(body.mud-theme-dark) .dashboard-footer__subtitle,
+:global(body.mud-theme-dark) .dashboard-footer__links {
+    color: rgba(148, 163, 184, 0.85);
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using MudBlazor;
 
 namespace Blazor_CoreScaffold.Components.Layout;
 
@@ -20,5 +22,15 @@ public static class DashboardHeaderAppearance
 
         var trimmed = value.Trim();
         return Allowed.Contains(trimmed) ? trimmed.ToLowerInvariant() : "success";
+    }
+
+    public static string GetIcon(string normalizedAppearance)
+    {
+        return normalizedAppearance switch
+        {
+            "warning" => Icons.Material.Outlined.ErrorOutline,
+            "error" => Icons.Material.Outlined.ReportProblem,
+            _ => Icons.Material.Outlined.Verified
+        };
     }
 }

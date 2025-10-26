@@ -1,10 +1,39 @@
+@using MudBlazor
+
 <footer class="dashboard-footer">
-    <MudText Typo="Typo.caption" Align="Align.Center" Class="dashboard-footer__text">
-        @FooterText
-    </MudText>
+    <div class="dashboard-footer__content">
+        <div class="dashboard-footer__branding">
+            <div class="dashboard-footer__badge">
+                <MudIcon Icon="@FooterIcon" Class="dashboard-footer__badge-icon" />
+            </div>
+            <div class="dashboard-footer__text-group">
+                <MudText Typo="Typo.body2" Class="dashboard-footer__title">@FooterText</MudText>
+                @if (!string.IsNullOrWhiteSpace(SecondaryText))
+                {
+                    <MudText Typo="Typo.caption" Class="dashboard-footer__subtitle">@SecondaryText</MudText>
+                }
+            </div>
+        </div>
+
+        @if (RightContent is not null)
+        {
+            <div class="dashboard-footer__links">
+                @RightContent
+            </div>
+        }
+    </div>
 </footer>
 
 @code {
     [Parameter]
     public string FooterText { get; set; } = $"© {DateTime.Now.Year} ProjectName. All rights reserved.";
+
+    [Parameter]
+    public string SecondaryText { get; set; } = "Monitoring insights updated in real time.";
+
+    [Parameter]
+    public string FooterIcon { get; set; } = Icons.Material.Outlined.Speed;
+
+    [Parameter]
+    public RenderFragment? RightContent { get; set; }
 }
