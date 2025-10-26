@@ -78,7 +78,8 @@
 
 .dashboard-drawer__bottom {
     margin-top: auto;
-    padding-top: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0.25rem;
     border-top: 1px solid var(--dashboard-border);
 }
 

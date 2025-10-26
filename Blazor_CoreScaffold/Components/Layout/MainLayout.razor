@@ -21,21 +21,22 @@
 
     <MudMainContent Class="dashboard-shell__main">
         <MudAppBar Elevation="0" Class="dashboard-shell__appbar" DisableGutters="true">
-            <div class="dashboard-shell__appbar-inner">
-                <MudIconButton Icon="@Icons.Material.Outlined.MenuOpen"
-                               Color="Color.Inherit"
-                               Variant="Variant.Text"
-                               Size="Size.Medium"
-                               OnClick="ToggleDrawer"
-                               Class="dashboard-shell__menu-button"
-                               AriaLabel="Toggle navigation" />
+            <MudToolbarRow Class="dashboard-shell__appbar-row">
+                <div class="dashboard-shell__appbar-left">
+                    <MudIconButton Icon="@Icons.Material.Outlined.MenuOpen"
+                                   Color="Color.Inherit"
+                                   Variant="Variant.Text"
+                                   Size="Size.Medium"
+                                   OnClick="ToggleDrawer"
+                                   Class="dashboard-shell__menu-button"
+                                   AriaLabel="Toggle navigation" />
+                </div>
 
-                <MudSpacer />
-
-                <div class="dashboard-shell__top-actions">
-                    <MudMenu Class="dashboard-shell__popover"
-                             CloseMenuOnClick="false">
-                        <ActivatorContent>
+                <div class="dashboard-shell__appbar-right">
+                    <div class="dashboard-shell__top-actions">
+                        <MudMenu Class="dashboard-shell__popover"
+                                 CloseMenuOnClick="false">
+                            <ActivatorContent>
                             <MudBadge Content="@_messages.Count"
                                       Color="Color.Primary"
                                       Overlap="true"
@@ -98,8 +99,9 @@
                             </MudPaper>
                         </ChildContent>
                     </MudMenu>
+                    </div>
                 </div>
-            </div>
+            </MudToolbarRow>
         </MudAppBar>
 
         <MudContainer MaxWidth="MaxWidth.False" Class="dashboard-shell__content">
