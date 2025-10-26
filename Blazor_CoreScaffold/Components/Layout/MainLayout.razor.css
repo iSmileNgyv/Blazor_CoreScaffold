@@ -1,30 +1,36 @@
-.dashboard-shell {
-    --dashboard-background: #f6f7f8;
+/* Define color variables for light theme */
+:root {
+    --dashboard-background: #f7f9fc; /* Slightly lighter background */
     --dashboard-surface: #ffffff;
-    --dashboard-surface-alt: #eef2f8;
-    --dashboard-border: rgba(15, 23, 42, 0.08);
+    --dashboard-surface-alt: #f0f3f8; /* Softer alternative surface */
+    --dashboard-border: #e5e9f0; /* Softer border */
     --dashboard-text-primary: #1f2937;
     --dashboard-text-secondary: #6b7280;
     --dashboard-status-green: #10B981;
-    --dashboard-status-yellow: #FBBF24;
+    --dashboard-status-yellow: #F59E0B; /* Slightly adjusted yellow */
     --dashboard-status-red: #EF4444;
     --dashboard-primary: #137fec;
+    --dashboard-primary-light: #e7f1ff; /* Light primary for backgrounds */
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.dashboard-shell {
     min-height: 100vh;
     display: flex;
-    background: linear-gradient(140deg, rgba(19, 127, 236, 0.05) 0%, rgba(19, 127, 236, 0.0) 35%),
-        var(--dashboard-background);
+    background: var(--dashboard-background);
     color: var(--dashboard-text-primary);
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: var(--font-sans);
 }
 
 .dashboard-shell__drawer {
-    width: 256px;
-    padding: 1.5rem 1.5rem 1rem;
+    width: 260px; /* Slightly wider drawer */
+    padding: 1.5rem 1.25rem 1rem; /* Adjusted padding */
     border-right: 1px solid var(--dashboard-border);
-    background: linear-gradient(180deg, rgba(19, 127, 236, 0.08) 0%, rgba(19, 127, 236, 0) 45%),
-        var(--dashboard-surface);
+    background: var(--dashboard-surface);
     min-height: 100vh;
     height: 100vh;
+    box-shadow: 2px 0 10px rgba(15, 23, 42, 0.03); /* Subtle shadow */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
 }
 
 .dashboard-shell__drawer .mud-drawer-content {
@@ -40,26 +46,27 @@
     display: flex;
     flex-direction: column;
     background-color: transparent;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .dashboard-shell__topbar {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 1.25rem;
+    gap: 1rem; /* Reduced gap */
     background-color: var(--dashboard-surface);
     color: var(--dashboard-text-primary);
     border-bottom: 1px solid var(--dashboard-border);
-    padding: 1.25rem 1.75rem 1.25rem 1.5rem;
-    min-height: 80px;
+    padding: 0.75rem 1.75rem 0.75rem 1.5rem; /* Adjusted vertical padding */
+    min-height: 70px; /* Reduced height */
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 10; /* Ensure it's above content */
 }
 
 .dashboard-shell__menu-button {
-    border-radius: 14px;
-    padding: 0.45rem;
+    border-radius: 12px; /* Consistent rounding */
+    padding: 0.4rem;
     flex-shrink: 0;
 }
 
@@ -67,25 +74,27 @@
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.85rem 1.1rem;
-    margin-block: 0.85rem;
-    border-radius: 999px;
-    background: var(--dashboard-surface-alt);
-    border: 1px solid var(--dashboard-border);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    gap: 0.75rem; /* Reduced gap */
+    /* Remove background/border for cleaner look */
 }
 
 .dashboard-shell__icon-button {
-    border-radius: 14px;
-    padding: 0.35rem;
+    border-radius: 12px; /* Consistent rounding */
+    padding: 0.4rem; /* Standardized padding */
+    color: var(--dashboard-text-secondary); /* Softer icon color */
+}
+
+.dashboard-shell__icon-button:hover {
+    background-color: var(--dashboard-surface-alt);
+    color: var(--dashboard-text-primary);
 }
 
 .dashboard-shell__badge .mud-badge-badge {
-    font-size: 0.65rem;
-    min-width: 1.15rem;
-    height: 1.15rem;
+    font-size: 0.6rem;
+    min-width: 1rem;
+    height: 1rem;
     padding: 0 0.2rem;
+    box-shadow: 0 0 0 2px var(--dashboard-surface); /* Make badge pop */
 }
 
 .dashboard-shell__popover {
@@ -93,110 +102,139 @@
 }
 
 .dashboard-shell__menu-panel {
-    min-width: 260px;
-    padding: 0.75rem 0.75rem 0.5rem;
+    min-width: 280px; /* Wider menu */
+    padding: 0.5rem; /* Tighter padding */
     background-color: var(--dashboard-surface);
     color: var(--dashboard-text-primary);
     border: 1px solid var(--dashboard-border);
-    border-radius: 16px;
+    border-radius: 14px; /* Consistent rounding */
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+}
+
+.dashboard-shell__menu-panel::deep .mud-list {
+    padding: 0.25rem;
+}
+
+.dashboard-shell__menu-panel::deep .mud-list-item {
+    border-radius: 10px; /* Rounded items */
+    padding: 0.5rem 0.75rem;
 }
 
 .dashboard-shell__menu-title {
-    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem 0.75rem;
+    font-weight: 600;
 }
 
 .dashboard-shell__menu-item {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
-    padding-block: 0.25rem;
+    gap: 0;
 }
 
 .dashboard-shell__menu-item-title {
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.3;
 }
 
 .dashboard-shell__menu-item-meta {
     color: var(--dashboard-text-secondary);
+    font-size: 0.75rem;
 }
 
 .dashboard-shell__content {
     flex: 1;
     width: 100%;
-    max-width: 1120px;
+    max-width: 1280px; /* Wider content area */
     margin: 0 auto;
-    padding: 2.75rem 2.5rem 2.5rem;
+    padding: 2.5rem; /* Adjusted padding */
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 2rem; /* Consistent gap */
 }
 
 .dashboard-shell__content > .dashboard-page {
     flex: 1;
 }
 
+/* Dark Theme Variables & Adjustments */
+:global(body.mud-theme-dark) {
+    --dashboard-background: #0d1117; /* GitHub dark bg */
+    --dashboard-surface: #161b22; /* GitHub dark surface */
+    --dashboard-surface-alt: #21262d; /* GitHub dark alt surface */
+    --dashboard-border: #30363d; /* GitHub dark border */
+    --dashboard-text-primary: #c9d1d9; /* GitHub dark primary text */
+    --dashboard-text-secondary: #8b949e; /* GitHub dark secondary text */
+    --dashboard-primary: #58a6ff; /* GitHub dark primary blue */
+    --dashboard-primary-light: rgba(88, 166, 255, 0.15);
+}
+
 :global(body.mud-theme-dark) .dashboard-shell {
-    --dashboard-background: #101922;
-    --dashboard-surface: #121c26;
-    --dashboard-surface-alt: #172534;
-    --dashboard-border: rgba(255, 255, 255, 0.08);
-    --dashboard-text-primary: #f9fafb;
-    --dashboard-text-secondary: #9ca3af;
-    background: radial-gradient(circle at top left, rgba(19, 127, 236, 0.18), transparent 55%),
-        #101922;
+    background: var(--dashboard-background);
 }
 
 :global(body.mud-theme-dark) .dashboard-shell__drawer {
-    background: linear-gradient(180deg, rgba(19, 127, 236, 0.16) 0%, rgba(19, 127, 236, 0) 45%),
-        var(--dashboard-surface);
+    background: var(--dashboard-surface);
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
 }
 
 :global(body.mud-theme-dark) .dashboard-shell__topbar {
     background-color: var(--dashboard-surface);
 }
 
-:global(body.mud-theme-dark) .dashboard-shell__top-actions {
-    background: var(--dashboard-surface-alt);
-    border-color: var(--dashboard-border);
-    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.25);
+:global(body.mud-theme-dark) .dashboard-shell__icon-button:hover {
+    background-color: var(--dashboard-surface-alt);
+    color: var(--dashboard-text-primary);
 }
 
+:global(body.mud-theme-dark) .dashboard-shell__badge .mud-badge-badge {
+    box-shadow: 0 0 0 2px var(--dashboard-surface);
+}
+
+:global(body.mud-theme-dark) .dashboard-shell__menu-panel {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Responsive Adjustments */
 @media (max-width: 1200px) {
     .dashboard-shell__content {
-        padding: 2rem 2rem 2rem;
+        padding: 2rem;
+        gap: 1.5rem;
     }
 }
 
 @media (max-width: 992px) {
     .dashboard-shell__drawer {
-        width: 220px;
-        padding: 1.5rem 1.25rem;
+        width: 240px;
+        padding: 1.5rem 1rem;
     }
 }
 
 @media (max-width: 768px) {
     .dashboard-shell {
-        flex-direction: column;
+        /* Keep flex-direction: row for mobile drawer */
     }
 
     .dashboard-shell__topbar {
-        padding: 1rem 1.25rem;
-        gap: 1rem;
+        padding: 0.75rem 1rem;
+        min-height: 60px;
+        gap: 0.5rem;
     }
 
-    .dashboard-shell__top-actions {
-        padding: 0.65rem 0.85rem;
-        margin-block: 0.6rem;
-        gap: 0.75rem;
+    .dashboard-shell__main {
+        /* Allow main content to potentially scroll under topbar if needed */
     }
 
     .dashboard-shell__content {
-        padding: 2rem 1.25rem 1.75rem;
+        padding: 1.5rem 1rem;
     }
 }
 
+/* Blazor Error UI */
 #blazor-error-ui {
-    background: lightyellow;
+    background: #ffebeb; /* Light red */
+    color: #a01c1c; /* Darker red */
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
     display: none;
@@ -212,4 +250,5 @@
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
+    color: #791515;
 }

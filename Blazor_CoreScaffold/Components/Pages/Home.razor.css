@@ -1,40 +1,48 @@
+/* Overall page structure */
 .dashboard-page {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 2rem; /* Adjusted gap */
 }
 
-.dashboard-metrics {
-    margin: 0;
-}
-
-.dashboard-charts {
-    margin: 0;
-}
-
+/* Common Card Styles */
 .dashboard-card {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.75rem;
-    border-radius: 18px;
+    padding: 1.5rem; /* Adjusted padding */
+    border-radius: 16px; /* Slightly less rounded */
     background: var(--dashboard-surface);
     border: 1px solid var(--dashboard-border);
-    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05); /* Softer shadow */
     color: var(--dashboard-text-primary);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
 }
 
 .dashboard-card__label {
     color: var(--dashboard-text-secondary);
+    font-size: 0.8rem; /* Smaller label */
+    margin-bottom: 0.5rem; /* Space below label */
 }
 
 .dashboard-card__value {
-    font-weight: 700;
+    font-weight: 600; /* Bolder value */
     letter-spacing: -0.01em;
+    line-height: 1.2;
 }
 
 .dashboard-card__value--success {
     color: var(--dashboard-status-green);
+}
+
+.dashboard-card__meta,
+.dashboard-card__delta {
+    font-size: 0.8rem; /* Smaller meta/delta text */
+    margin-top: 0.5rem; /* Space above meta/delta */
 }
 
 .dashboard-card__meta {
@@ -42,7 +50,7 @@
 }
 
 .dashboard-card__delta {
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .dashboard-card__delta--positive {
@@ -53,48 +61,72 @@
     color: var(--dashboard-status-red);
 }
 
+/* Metric Card Specifics */
+.dashboard-card--metric {
+    gap: 0.5rem; /* Tighter gap for metrics */
+}
+
+.dashboard-card--metric .dashboard-card__value {
+    font-size: 1.75rem; /* Slightly larger metric value */
+}
+
+/* Chart Card Specifics */
 .dashboard-card--chart {
-    min-height: 320px;
-    justify-content: space-between;
+    min-height: 280px; /* Slightly shorter chart cards */
+    padding: 0; /* Remove padding to let header/chart fill */
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card__header {
+    padding: 1.5rem 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
 }
 
 .dashboard-card__trend {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .dashboard-chart {
-    flex: 1;
+    flex-grow: 1; /* Allow chart to fill remaining space */
     display: flex;
-    align-items: center;
-    margin-top: 1rem;
+    align-items: flex-end; /* Align chart to bottom */
+    margin-top: 0.5rem;
+    overflow: hidden; /* Hide overflow */
+    border-bottom-left-radius: 16px; /* Match card radius */
+    border-bottom-right-radius: 16px;
 }
 
 .dashboard-chart svg {
     width: 100%;
-    height: 180px;
+    height: 120px; /* Adjusted chart height */
+    display: block; /* Remove potential extra space */
 }
 
+/* Services Section */
 .dashboard-services {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem; /* Smaller gap */
 }
 
 .dashboard-section-title {
-    font-weight: 700;
+    font-weight: 600; /* Bolder section title */
     color: var(--dashboard-text-primary);
+    padding-left: 0.25rem; /* Slight indent */
 }
 
 .dashboard-services__list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 1.5rem 1.75rem;
-    border-radius: 18px;
+    padding: 1rem 1.5rem; /* Adjusted padding */
+    border-radius: 16px;
     background: var(--dashboard-surface);
     border: 1px solid var(--dashboard-border);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 .dashboard-services__row {
@@ -102,7 +134,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 0.9rem 0;
+    padding: 0.75rem 0; /* Adjusted padding */
     border-bottom: 1px solid var(--dashboard-border);
 }
 
@@ -112,55 +144,48 @@
 
 .dashboard-services__name {
     font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--dashboard-text-primary);
 }
 
 .dashboard-services__status {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.8rem;
 }
 
-.dashboard-services__status--success {
-    color: var(--dashboard-status-green);
-}
-
-.dashboard-services__status--warning {
-    color: var(--dashboard-status-yellow);
-}
-
-.dashboard-services__status--error {
-    color: var(--dashboard-status-red);
-}
+.dashboard-services__status--success { color: var(--dashboard-status-green); }
+.dashboard-services__status--warning { color: var(--dashboard-status-yellow); }
+.dashboard-services__status--error { color: var(--dashboard-status-red); }
 
 .dashboard-services__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 9999px;
+    width: 7px; /* Smaller dot */
+    height: 7px;
+    border-radius: 50%;
     background-color: currentColor;
 }
 
-@media (max-width: 640px) {
-    .dashboard-card {
-        padding: 1.5rem;
-    }
-
-    .dashboard-services__row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .dashboard-services__status {
-        margin-top: 0.35rem;
-    }
-}
-
-:global(body.mud-theme-dark) .dashboard-card {
-    background: var(--dashboard-surface-alt);
-    box-shadow: 0 20px 38px rgba(8, 15, 26, 0.35);
-}
-
+/* Dark Theme Adjustments */
+:global(body.mud-theme-dark) .dashboard-card,
 :global(body.mud-theme-dark) .dashboard-services__list {
     background: var(--dashboard-surface-alt);
-    box-shadow: 0 20px 38px rgba(8, 15, 26, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Darker shadow for dark mode */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+    .dashboard-card {
+        padding: 1.25rem;
+    }
+    .dashboard-card__header {
+        padding: 1.25rem 1.25rem 0.75rem;
+    }
+    .dashboard-services__list {
+        padding: 0.75rem 1.25rem;
+    }
+    .dashboard-services__row {
+        padding: 0.65rem 0;
+    }
 }
