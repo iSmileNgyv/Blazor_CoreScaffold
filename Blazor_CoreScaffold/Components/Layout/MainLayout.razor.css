@@ -1,254 +1,200 @@
-/* Define color variables for light theme */
-:root {
-    --dashboard-background: #f7f9fc; /* Slightly lighter background */
-    --dashboard-surface: #ffffff;
-    --dashboard-surface-alt: #f0f3f8; /* Softer alternative surface */
-    --dashboard-border: #e5e9f0; /* Softer border */
-    --dashboard-text-primary: #1f2937;
-    --dashboard-text-secondary: #6b7280;
-    --dashboard-status-green: #10B981;
-    --dashboard-status-yellow: #F59E0B; /* Slightly adjusted yellow */
-    --dashboard-status-red: #EF4444;
-    --dashboard-primary: #137fec;
-    --dashboard-primary-light: #e7f1ff; /* Light primary for backgrounds */
-    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+:global(:root) {
+    --app-background-light: #f6f7f8;
+    --app-background-dark: #101922;
+    --app-surface-light: #ffffff;
+    --app-surface-dark: #1a242e;
+    --app-border-light: #e5e7eb;
+    --app-border-dark: #324d67;
+    --app-text-primary-light: #1f2937;
+    --app-text-primary-dark: #f9fafb;
+    --app-text-secondary-light: #6b7280;
+    --app-text-secondary-dark: #9ca3af;
+    --app-primary: #137fec;
+    --app-radius-lg: 12px;
+    --app-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.dashboard-shell {
+.app-layout {
     min-height: 100vh;
     display: flex;
-    background: var(--dashboard-background);
-    color: var(--dashboard-text-primary);
-    font-family: var(--font-sans);
+    background: var(--app-background-light);
+    color: var(--app-text-primary-light);
+    font-family: var(--app-font);
 }
 
-.dashboard-shell__drawer {
-    width: 260px; /* Slightly wider drawer */
-    padding: 1.5rem 1.25rem 1rem; /* Adjusted padding */
-    border-right: 1px solid var(--dashboard-border);
-    background: var(--dashboard-surface);
-    min-height: 100vh;
-    height: 100vh;
-    box-shadow: 2px 0 10px rgba(15, 23, 42, 0.03); /* Subtle shadow */
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
+.app-layout__drawer {
+    width: 16rem;
+    border-right: 1px solid var(--app-border-light);
+    background: var(--app-surface-light);
+    padding: 1rem;
 }
 
-.dashboard-shell__drawer .mud-drawer-content {
-    background: transparent;
+.app-layout__drawer .mud-drawer-content {
     height: 100%;
     padding: 0;
     display: flex;
     flex-direction: column;
+    background: transparent;
 }
 
-.dashboard-shell__main {
+.app-layout__main {
     flex: 1;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: transparent;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    background: var(--app-background-light);
 }
 
-.dashboard-shell__topbar {
+.app-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1rem; /* Reduced gap */
-    background-color: var(--dashboard-surface);
-    color: var(--dashboard-text-primary);
-    border-bottom: 1px solid var(--dashboard-border);
-    padding: 0.75rem 1.75rem 0.75rem 1.5rem; /* Adjusted vertical padding */
-    min-height: 70px; /* Reduced height */
-    position: sticky;
-    top: 0;
-    z-index: 10; /* Ensure it's above content */
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--app-border-light);
+    background: var(--app-surface-light);
 }
 
-.dashboard-shell__menu-button {
-    border-radius: 12px; /* Consistent rounding */
-    padding: 0.4rem;
-    flex-shrink: 0;
+.app-header__menu {
+    border-radius: var(--app-radius-lg);
 }
 
-.dashboard-shell__top-actions {
+.app-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem; /* Reduced gap */
-    /* Remove background/border for cleaner look */
 }
 
-.dashboard-shell__icon-button {
-    border-radius: 12px; /* Consistent rounding */
-    padding: 0.4rem; /* Standardized padding */
-    color: var(--dashboard-text-secondary); /* Softer icon color */
+.app-header__icon {
+    color: var(--app-text-secondary-light);
+    border-radius: var(--app-radius-lg);
 }
 
-.dashboard-shell__icon-button:hover {
-    background-color: var(--dashboard-surface-alt);
-    color: var(--dashboard-text-primary);
+.app-header__icon:hover {
+    background: rgba(19, 127, 236, 0.08);
+    color: var(--app-text-primary-light);
 }
 
-.dashboard-shell__badge .mud-badge-badge {
-    font-size: 0.6rem;
+.app-header__badge .mud-badge-badge {
     min-width: 1rem;
     height: 1rem;
+    font-size: 0.65rem;
     padding: 0 0.2rem;
-    box-shadow: 0 0 0 2px var(--dashboard-surface); /* Make badge pop */
+    box-shadow: 0 0 0 2px var(--app-surface-light);
 }
 
-.dashboard-shell__popover {
+.app-header__avatar .mud-avatar {
+    border-radius: var(--app-radius-lg);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.app-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--app-text-secondary-light);
+    text-align: center;
+}
+
+.app-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--app-border-light);
+    background: var(--app-surface-light);
+    color: var(--app-text-secondary-light);
+}
+
+.app-footer__links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-footer__link {
     color: inherit;
+    text-decoration: none;
+    font-size: 0.875rem;
 }
 
-.dashboard-shell__menu-panel {
-    min-width: 280px; /* Wider menu */
-    padding: 0.5rem; /* Tighter padding */
-    background-color: var(--dashboard-surface);
-    color: var(--dashboard-text-primary);
-    border: 1px solid var(--dashboard-border);
-    border-radius: 14px; /* Consistent rounding */
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+.app-footer__link:hover {
+    color: var(--app-primary);
 }
 
-.dashboard-shell__menu-panel::deep .mud-list {
-    padding: 0.25rem;
+:global(body.mud-theme-dark) .app-layout {
+    background: var(--app-background-dark);
+    color: var(--app-text-primary-dark);
 }
 
-.dashboard-shell__menu-panel::deep .mud-list-item {
-    border-radius: 10px; /* Rounded items */
-    padding: 0.5rem 0.75rem;
+:global(body.mud-theme-dark) .app-layout__drawer {
+    background: var(--app-surface-dark);
+    border-right-color: var(--app-border-dark);
 }
 
-.dashboard-shell__menu-title {
-    padding: 0.5rem 1rem 0.75rem;
-    font-weight: 600;
+:global(body.mud-theme-dark) .app-layout__main {
+    background: var(--app-background-dark);
 }
 
-.dashboard-shell__menu-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+:global(body.mud-theme-dark) .app-header {
+    background: var(--app-surface-dark);
+    border-bottom-color: var(--app-border-dark);
 }
 
-.dashboard-shell__menu-item-title {
-    font-weight: 500;
-    font-size: 0.9rem;
-    line-height: 1.3;
+:global(body.mud-theme-dark) .app-header__icon {
+    color: var(--app-text-secondary-dark);
 }
 
-.dashboard-shell__menu-item-meta {
-    color: var(--dashboard-text-secondary);
-    font-size: 0.75rem;
+:global(body.mud-theme-dark) .app-header__icon:hover {
+    background: rgba(19, 127, 236, 0.15);
+    color: var(--app-text-primary-dark);
 }
 
-.dashboard-shell__content {
-    flex: 1;
-    width: 100%;
-    max-width: 1280px; /* Wider content area */
-    margin: 0 auto;
-    padding: 2.5rem; /* Adjusted padding */
-    display: flex;
-    flex-direction: column;
-    gap: 2rem; /* Consistent gap */
+:global(body.mud-theme-dark) .app-header__badge .mud-badge-badge {
+    box-shadow: 0 0 0 2px var(--app-surface-dark);
 }
 
-.dashboard-shell__content > .dashboard-page {
-    flex: 1;
+:global(body.mud-theme-dark) .app-main {
+    color: var(--app-text-secondary-dark);
 }
 
-/* Dark Theme Variables & Adjustments */
-:global(body.mud-theme-dark) {
-    --dashboard-background: #0d1117; /* GitHub dark bg */
-    --dashboard-surface: #161b22; /* GitHub dark surface */
-    --dashboard-surface-alt: #21262d; /* GitHub dark alt surface */
-    --dashboard-border: #30363d; /* GitHub dark border */
-    --dashboard-text-primary: #c9d1d9; /* GitHub dark primary text */
-    --dashboard-text-secondary: #8b949e; /* GitHub dark secondary text */
-    --dashboard-primary: #58a6ff; /* GitHub dark primary blue */
-    --dashboard-primary-light: rgba(88, 166, 255, 0.15);
+:global(body.mud-theme-dark) .app-footer {
+    background: var(--app-surface-dark);
+    border-top-color: var(--app-border-dark);
+    color: var(--app-text-secondary-dark);
 }
 
-:global(body.mud-theme-dark) .dashboard-shell {
-    background: var(--dashboard-background);
+:global(body.mud-theme-dark) .app-footer__link:hover {
+    color: var(--app-primary);
 }
 
-:global(body.mud-theme-dark) .dashboard-shell__drawer {
-    background: var(--dashboard-surface);
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
-}
-
-:global(body.mud-theme-dark) .dashboard-shell__topbar {
-    background-color: var(--dashboard-surface);
-}
-
-:global(body.mud-theme-dark) .dashboard-shell__icon-button:hover {
-    background-color: var(--dashboard-surface-alt);
-    color: var(--dashboard-text-primary);
-}
-
-:global(body.mud-theme-dark) .dashboard-shell__badge .mud-badge-badge {
-    box-shadow: 0 0 0 2px var(--dashboard-surface);
-}
-
-:global(body.mud-theme-dark) .dashboard-shell__menu-panel {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-}
-
-
-/* Responsive Adjustments */
-@media (max-width: 1200px) {
-    .dashboard-shell__content {
-        padding: 2rem;
-        gap: 1.5rem;
-    }
-}
-
-@media (max-width: 992px) {
-    .dashboard-shell__drawer {
-        width: 240px;
-        padding: 1.5rem 1rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-shell {
-        /* Keep flex-direction: row for mobile drawer */
+@media (max-width: 960px) {
+    .app-layout__drawer {
+        width: 15rem;
+        padding: 0.75rem;
     }
 
-    .dashboard-shell__topbar {
+    .app-header,
+    .app-footer {
         padding: 0.75rem 1rem;
-        min-height: 60px;
+    }
+}
+
+@media (max-width: 640px) {
+    .app-header__actions {
         gap: 0.5rem;
     }
 
-    .dashboard-shell__main {
-        /* Allow main content to potentially scroll under topbar if needed */
+    .app-footer {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .dashboard-shell__content {
-        padding: 1.5rem 1rem;
+    .app-footer__links {
+        flex-wrap: wrap;
     }
-}
-
-/* Blazor Error UI */
-#blazor-error-ui {
-    background: #ffebeb; /* Light red */
-    color: #a01c1c; /* Darker red */
-    bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
-    left: 0;
-    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-}
-
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
-    color: #791515;
 }
