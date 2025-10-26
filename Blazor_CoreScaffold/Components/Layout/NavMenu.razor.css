@@ -81,6 +81,10 @@
     padding-top: 1.5rem;
     padding-bottom: 0.25rem;
     border-top: 1px solid var(--dashboard-border);
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(19, 127, 236, 0) 0%, rgba(19, 127, 236, 0.06) 100%),
+        var(--dashboard-surface);
 }
 
 .dashboard-drawer__bottom .dashboard-drawer__link {
@@ -99,6 +103,11 @@
 :global(body.mud-theme-dark) .dashboard-drawer__link--active {
     background: rgba(19, 127, 236, 0.22);
     color: var(--dashboard-primary);
+}
+
+:global(body.mud-theme-dark) .dashboard-drawer__bottom {
+    background: linear-gradient(180deg, rgba(19, 127, 236, 0) 0%, rgba(19, 127, 236, 0.14) 100%),
+        var(--dashboard-surface);
 }
 
 @media (max-width: 960px) {

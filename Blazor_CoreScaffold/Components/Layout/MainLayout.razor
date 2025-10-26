@@ -20,7 +20,7 @@
     </MudDrawer>
 
     <MudMainContent Class="dashboard-shell__main">
-        <MudAppBar Elevation="0" Class="dashboard-shell__appbar" DisableGutters="true">
+        <header class="dashboard-shell__topbar">
             <MudIconButton Icon="@Icons.Material.Outlined.MenuOpen"
                            Color="Color.Inherit"
                            Variant="Variant.Text"
@@ -28,8 +28,6 @@
                            OnClick="ToggleDrawer"
                            Class="dashboard-shell__menu-button"
                            AriaLabel="Toggle navigation" />
-
-            <MudSpacer />
 
             <div class="dashboard-shell__top-actions">
                 <MudMenu Class="dashboard-shell__popover"
@@ -98,7 +96,7 @@
                     </ChildContent>
                 </MudMenu>
             </div>
-        </MudAppBar>
+        </header>
 
         <MudContainer MaxWidth="MaxWidth.False" Class="dashboard-shell__content">
             @Body
