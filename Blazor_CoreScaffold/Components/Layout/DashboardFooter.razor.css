@@ -6,6 +6,7 @@
     justify-content: space-between;
     gap: 1rem;
     border-top: 1px solid var(--core-border);
+    background: var(--core-surface);
     color: var(--core-text-secondary);
 }
 
