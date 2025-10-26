@@ -1,5 +1,6 @@
 @inherits LayoutComponentBase
 @using MudBlazor
+@using MudBlazor.Services
 
 <MudThemeProvider @ref="_themeProvider"
                   Theme="_theme"
@@ -56,10 +57,10 @@
                             <MudText Typo="Typo.subtitle2">Messages</MudText>
                             <MudLink Href="#" Class="core-dashboard__menu-action">Mark all as read</MudLink>
                         </header>
-                        <MudList Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
+                        <MudList T="DashboardMessage" Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
                             @foreach (var message in _messages)
                             {
-                                <MudListItem Class="core-dashboard__menu-item" DisableRipple="true">
+                                <MudListItem T="DashboardMessage" Class="core-dashboard__menu-item" DisableRipple="true">
                                     @if (!string.IsNullOrWhiteSpace(message.AvatarUrl))
                                     {
                                         <MudAvatar Size="Size.Medium" Class="core-dashboard__menu-avatar" ImageUrl="@message.AvatarUrl" Alt="@message.From" />
@@ -112,10 +113,10 @@
                             <MudText Typo="Typo.subtitle2">Notifications</MudText>
                             <MudLink Href="#" Class="core-dashboard__menu-action">Mark all as read</MudLink>
                         </header>
-                        <MudList Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
+                        <MudList T="DashboardNotification" Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
                             @foreach (var notification in _notifications)
                             {
-                                <MudListItem Class="core-dashboard__menu-item" DisableRipple="true">
+                                <MudListItem T="DashboardNotification" Class="core-dashboard__menu-item" DisableRipple="true">
                                     <div class="core-dashboard__notification-icon core-dashboard__notification-icon--@notification.Severity.ToString().ToLowerInvariant()">
                                         <MudIcon Icon="@GetNotificationIcon(notification.Severity)" />
                                     </div>
@@ -151,17 +152,17 @@
                 </ActivatorContent>
                 <ChildContent>
                     <MudPaper Class="core-dashboard__menu" Elevation="8">
-                        <MudList Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
-                            <MudListItem Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
+                        <MudList T="string" Dense="true" DisablePadding="true" Class="core-dashboard__menu-list">
+                            <MudListItem T="string" Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
                                 <MudIcon Icon="@Icons.Material.Outlined.Person" />
                                 <MudText Typo="Typo.body2">My Profile</MudText>
                             </MudListItem>
-                            <MudListItem Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
+                            <MudListItem T="string" Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
                                 <MudIcon Icon="@Icons.Material.Outlined.Settings" />
                                 <MudText Typo="Typo.body2">Settings</MudText>
                             </MudListItem>
                             <MudDivider Class="core-dashboard__menu-divider" />
-                            <MudListItem Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
+                            <MudListItem T="string" Href="#" Class="core-dashboard__menu-item" DisableRipple="true">
                                 <MudIcon Icon="@Icons.Material.Outlined.Logout" />
                                 <MudText Typo="Typo.body2">Logout</MudText>
                             </MudListItem>
@@ -176,8 +177,12 @@
         </section>
 
         <DashboardFooter FooterText="@($"© {DateTime.Now.Year} Core Project. All rights reserved.")"
-                          SecondaryText=""
-                          RightContent="@<div class='core-footer__links'><MudLink Href='#' Class='core-footer__link'>Terms of Service</MudLink><MudLink Href='#' Class='core-footer__link'>Privacy Policy</MudLink></div>" />
+                          SecondaryText="">
+            <RightContent>
+                <MudLink Href="#" Class="core-footer__link">Terms of Service</MudLink>
+                <MudLink Href="#" Class="core-footer__link">Privacy Policy</MudLink>
+            </RightContent>
+        </DashboardFooter>
     </MudMainContent>
 </MudLayout>
 
