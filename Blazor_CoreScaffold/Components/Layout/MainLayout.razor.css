@@ -306,28 +306,13 @@
 }
 
 @media (min-width: 1024px) {
-    .dashboard-shell {
-        display: flex;
-        align-items: stretch;
-    }
-
-    .dashboard-shell__sidebar {
-        position: sticky;
-        top: 0;
-        transform: none;
-        width: 280px;
-        max-width: 280px;
-        height: 100vh;
-        overflow-y: auto;
-    }
-
-    .dashboard-shell--sidebar-closed .dashboard-shell__sidebar {
-        transform: none;
-    }
-
     .dashboard-shell__workspace {
-        flex: 1;
         margin-left: 0;
+        transition: margin-left 0.3s ease;
+    }
+
+    .dashboard-shell--sidebar-open .dashboard-shell__workspace {
+        margin-left: 280px;
     }
 
     .dashboard-shell__topbar {
