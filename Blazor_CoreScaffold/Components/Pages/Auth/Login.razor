@@ -3,6 +3,11 @@
 @page "/login"
 @layout LoginLayout
 @rendermode InteractiveServer
+@inject Blazor_CoreScaffold.Services.Authentication.IAuthenticationClient AuthenticationClient
+@inject Blazor_CoreScaffold.Services.AuthState AuthState
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject ILogger<Login> Logger
 <PageTitle>Admin Login</PageTitle>
 
 <div class="login-shell">
@@ -23,6 +28,12 @@
             <MudText Typo="Typo.h4" Class="login-form-title">Sign In</MudText>
 
             <MudForm @ref="form" @bind-IsValid="@success" OnValidSubmit="SubmitLogin" Class="login-form">
+                @if (!string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Dense="true" Class="login-error">
+                        @errorMessage
+                    </MudAlert>
+                }
                 <MudTextField T="string"
                               Label="Email Address"
                               @bind-Value="Email"
@@ -72,7 +83,8 @@
                            Color="Color.Primary"
                            Size="Size.Large"
                            FullWidth="true"
-                           Disabled="@(!success)"
+                           Disabled="@(!success || isSubmitting)"
+                           Loading="@isSubmitting"
                            Class="login-submit">
                     Log In
                 </MudButton>

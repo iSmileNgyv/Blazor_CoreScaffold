@@ -102,6 +102,10 @@
     gap: 1.5rem;
 }
 
+.login-error {
+    margin-bottom: 0.25rem;
+}
+
 .login-input::deep .mud-input-root {
     border-radius: 0.85rem;
     border: 1px solid rgba(255, 255, 255, 0.08);

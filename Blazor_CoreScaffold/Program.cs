@@ -1,5 +1,9 @@
 using Blazor_CoreScaffold.Components;
+using Blazor_CoreScaffold.Services;
+using Blazor_CoreScaffold.Services.Authentication;
 using MudBlazor.Services;
+
+AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+builder.Services.AddScoped<AuthState>();
+builder.Services.AddGrpcClient<Auth.AuthService.AuthServiceClient>(options =>
+{
+    var address = builder.Configuration["Grpc:AuthUrl"] ?? "http://localhost:9090";
+    options.Address = new Uri(address);
+});
+builder.Services.AddScoped<IAuthenticationClient, AuthenticationClient>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
