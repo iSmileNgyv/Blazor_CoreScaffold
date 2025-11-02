@@ -1,10 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Auth;
 using Blazor_CoreScaffold.Models;
 using Blazor_CoreScaffold.Services;
-using Blazor_CoreScaffold.Services.Authentication;
+using API_CoreScaffold.Services.Authentication;
 using Grpc.Core;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;

@@ -1,6 +1,6 @@
+using API_CoreScaffold.Services.Authentication;
 using Blazor_CoreScaffold.Components;
 using Blazor_CoreScaffold.Services;
-using Blazor_CoreScaffold.Services.Authentication;
 using MudBlazor.Services;
 
 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);

@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Auth;
 
-namespace Blazor_CoreScaffold.Services.Authentication;
+namespace API_CoreScaffold.Services.Authentication;
 
 public interface IAuthenticationClient
 {
