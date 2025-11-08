@@ -1,0 +1,106 @@
+@page "/settings"
+@using Blazor_CoreScaffold.Models
+@inject IJSRuntime JSRuntime
+
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Advanced System Configurations</h4>
+                    <p class="text-muted">Manage user roles, application parameters, integrations, and backup options.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">User Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Parameters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Integrations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Backup & Restore</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tab Content: User Roles -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title">Manage User Roles</h4>
+                            <button class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Add New Role
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Role Name</th>
+                                        <th>Description</th>
+                                        <th>Users Assigned</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var role in UserRoles)
+                                    {
+                                        <tr>
+                                            <td>@role.RoleName</td>
+                                            <td>@role.Description</td>
+                                            <td>@role.UsersAssigned</td>
+                                            <td class="text-right">
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p class="text-muted">Showing 1 to @UserRoles.Count of @UserRoles.Count results</p>
+                            <div>
+                                <button class="btn btn-secondary" disabled>Previous</button>
+                                <button class="btn btn-secondary">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<UserRole> UserRoles = new List<UserRole>
+    {
+        new UserRole { RoleName = "Administrator", Description = "Full access to all system features and settings.", UsersAssigned = 5 },
+        new UserRole { RoleName = "Content Manager", Description = "Can create, edit, and publish content.", UsersAssigned = 12 },
+        new UserRole { RoleName = "Support Agent", Description = "Access to user support tickets and communication tools.", UsersAssigned = 8 },
+        new UserRole { RoleName = "Read-Only Viewer", Description = "Can view data and reports but cannot make changes.", UsersAssigned = 25 }
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("setTitle", "Advanced System Configurations");
+        }
+    }
+}
