@@ -22,7 +22,7 @@
         <div class="login-panel__inner">
             <MudText Typo="Typo.h4" Class="login-form-title">Sign In</MudText>
 
-            <MudForm @ref="form" @bind-IsValid="@success" OnValidSubmit="SubmitLogin" Class="login-form">
+            <MudForm @ref="form" @bind-IsValid="@success" OnSubmit="SubmitLogin" Class="login-form">
                 <MudTextField T="string"
                               Label="Email Address"
                               @bind-Value="Email"
