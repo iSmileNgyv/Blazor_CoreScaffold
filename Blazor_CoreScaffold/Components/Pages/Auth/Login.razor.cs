@@ -1,7 +1,5 @@
-using System.Threading.Tasks;
 using API_CoreScaffold.Contracts;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
 using MudBlazor;
 
 namespace Blazor_CoreScaffold.Components.Pages.Auth;
@@ -11,7 +9,7 @@ public partial class Login
     private MudForm? form;
     private bool success;
 
-    private string Email { get; set; } = string.Empty;
+    private string Username { get; set; } = string.Empty;
     private string Password { get; set; } = string.Empty;
     private bool RememberMe { get; set; } = false;
 
@@ -53,9 +51,9 @@ public partial class Login
 
         try
         {
-            Logger.LogInformation("Sending login request for {Email}", Email);
+            Logger.LogInformation("Sending login request for {Username}", Username);
 
-            var response = await AuthService.LoginAsync(Email, Password);
+            var response = await AuthService.LoginAsync(Username, Password);
 
             Logger.LogInformation(
                 "Login response received. Success: {Success}, Message: {Message}, OtpRequired: {OtpRequired}",
@@ -74,7 +72,7 @@ public partial class Login
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Login request failed for {Email}", Email);
+            Logger.LogError(ex, "Login request failed for {Username}", Username);
             Snackbar.Add("An unexpected error occurred while processing the login request.", Severity.Error);
         }
         finally

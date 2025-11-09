@@ -24,11 +24,10 @@
 
             <MudForm @ref="form" @bind-IsValid="@success" OnSubmit="SubmitLogin" Class="login-form">
                 <MudTextField T="string"
-                              Label="Email Address"
-                              @bind-Value="Email"
+                              Label="Username"
+                              @bind-Value="Username"
                               Required="true"
-                              RequiredError="Email is required!"
-                              Validation="@(new EmailAddressAttribute() { ErrorMessage = "The email address is invalid" })"
+                              RequiredError="Username is required!"
                               Variant="Variant.Outlined"
                               Margin="Margin.None"
                               Adornment="Adornment.Start"
@@ -71,6 +70,7 @@
                            Variant="Variant.Filled"
                            Color="Color.Primary"
                            Size="Size.Large"
+                           OnClick="SubmitLogin"
                            FullWidth="true"
                            Disabled="@(!success || isSubmitting)"
                            Loading="@isSubmitting"
