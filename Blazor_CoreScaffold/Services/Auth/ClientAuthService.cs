@@ -13,6 +13,7 @@ public interface IClientAuthService
     Task LogoutAsync();
     Task<AuthSession?> GetCurrentSessionAsync();
     Task<string?> GetPendingOtpUsernameAsync();
+    Task<string?> ConsumeLoginTicketAsync();
 }
 
 public class ClientAuthService(
@@ -20,8 +21,11 @@ public class ClientAuthService(
     ServerAuthenticationStateProvider authenticationStateProvider,
     ILogger<ClientAuthService> logger) : IClientAuthService
 {
+    private string? pendingLoginTicket;
+
     public async Task<AuthResponse> LoginAsync(string username, string password)
     {
+        pendingLoginTicket = null;
         var response = await authService.LoginAsync(username, password);
 
         if (!response.Success)
@@ -45,6 +49,7 @@ public class ClientAuthService(
 
     public async Task<AuthResponse> VerifyOtpAsync(string otpCode)
     {
+        pendingLoginTicket = null;
         var pendingChallenge = await authenticationStateProvider.GetPendingOtpAsync();
         if (pendingChallenge is null || string.IsNullOrWhiteSpace(pendingChallenge.Username))
         {
@@ -74,6 +79,7 @@ public class ClientAuthService(
     {
         await authenticationStateProvider.ClearPendingOtpAsync();
         await authenticationStateProvider.ClearSessionAsync();
+        pendingLoginTicket = null;
     }
 
     public Task<AuthSession?> GetCurrentSessionAsync() => authenticationStateProvider.GetCurrentSessionAsync();
@@ -82,6 +88,13 @@ public class ClientAuthService(
     {
         var pending = await authenticationStateProvider.GetPendingOtpAsync();
         return pending?.Username;
+    }
+
+    public Task<string?> ConsumeLoginTicketAsync()
+    {
+        var ticket = pendingLoginTicket;
+        pendingLoginTicket = null;
+        return Task.FromResult(ticket);
     }
 
     private async Task PersistAuthenticatedSessionAsync(AuthResponse response)
@@ -95,6 +108,9 @@ public class ClientAuthService(
         }
 
         await authenticationStateProvider.ClearPendingOtpAsync();
-        await authenticationStateProvider.SetSessionAsync(session);
+        var cookieIssued = await authenticationStateProvider.SetSessionAsync(session);
+        pendingLoginTicket = cookieIssued
+            ? null
+            : await authenticationStateProvider.CreateLoginTicketAsync(session);
     }
 }

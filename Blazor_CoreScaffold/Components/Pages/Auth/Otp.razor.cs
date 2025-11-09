@@ -1,3 +1,4 @@
+using System;
 using Blazor_CoreScaffold.Services.Auth;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -56,7 +57,16 @@ public partial class Otp
             if (response.Success && !response.OtpRequired)
             {
                 Snackbar.Add("OTP doğrulandı. Hoş geldiniz!", Severity.Success);
-                NavigationManager.NavigateTo("/");
+                var ticket = await ClientAuthService.ConsumeLoginTicketAsync();
+                if (!string.IsNullOrWhiteSpace(ticket))
+                {
+                    var target = $"/auth/callback?ticket={Uri.EscapeDataString(ticket)}";
+                    NavigationManager.NavigateTo(target, forceLoad: true);
+                }
+                else
+                {
+                    NavigationManager.NavigateTo("/", forceLoad: true);
+                }
                 return;
             }
 
@@ -66,7 +76,6 @@ public partial class Otp
         {
             Logger.LogWarning(ex, "OTP doğrulama isteği reddedildi. Geçerli bir OTP oturumu bulunamadı.");
             Snackbar.Add("OTP doğrulaması için geçerli bir giriş isteği bulunamadı.", Severity.Warning);
-            NavigationManager.NavigateTo("/login");
         }
         catch (Exception ex)
         {

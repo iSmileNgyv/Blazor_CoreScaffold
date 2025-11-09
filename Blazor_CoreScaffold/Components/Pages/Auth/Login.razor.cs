@@ -1,3 +1,4 @@
+using System;
 using Blazor_CoreScaffold.Services.Auth;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -78,7 +79,19 @@ public partial class Login
                 }
                 Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
                 isSubmitting = false;
-                await InvokeAsync(() => NavigationManager.NavigateTo("/"));
+                await InvokeAsync(async () =>
+                {
+                    var ticket = await AuthService.ConsumeLoginTicketAsync();
+                    if (!string.IsNullOrWhiteSpace(ticket))
+                    {
+                        var target = $"/auth/callback?ticket={Uri.EscapeDataString(ticket)}";
+                        NavigationManager.NavigateTo(target, forceLoad: true);
+                    }
+                    else
+                    {
+                        NavigationManager.NavigateTo("/", forceLoad: true);
+                    }
+                });
                 return;
             }
             Snackbar.Add(response.Message ?? "Login failed.", Severity.Error);

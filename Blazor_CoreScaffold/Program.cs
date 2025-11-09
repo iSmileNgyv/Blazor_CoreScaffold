@@ -6,7 +6,9 @@ using Blazor_CoreScaffold.Services.Auth;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
-builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
@@ -67,6 +68,27 @@ app.UseAntiforgery();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/auth/callback", async (HttpContext context, string? ticket, ServerAuthenticationStateProvider authenticationStateProvider, ILoggerFactory loggerFactory) =>
+    {
+        var logger = loggerFactory.CreateLogger("AuthCallback");
+
+        if (string.IsNullOrWhiteSpace(ticket))
+        {
+            logger.LogWarning("Auth callback invoked without a ticket.");
+            return Results.Redirect("/login?authTicket=missing");
+        }
+
+        var redeemed = await authenticationStateProvider.TryRedeemLoginTicketAsync(ticket);
+        if (!redeemed)
+        {
+            logger.LogWarning("Auth callback ticket {Ticket} was invalid or expired.", ticket);
+            return Results.Redirect("/login?authTicket=invalid");
+        }
+
+        return Results.Redirect("/");
+    })
+    .AllowAnonymous();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
