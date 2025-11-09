@@ -72,7 +72,8 @@
                            Color="Color.Primary"
                            Size="Size.Large"
                            FullWidth="true"
-                           Disabled="@(!success)"
+                           Disabled="@(!success || isSubmitting)"
+                           Loading="@isSubmitting"
                            Class="login-submit">
                     Log In
                 </MudButton>
