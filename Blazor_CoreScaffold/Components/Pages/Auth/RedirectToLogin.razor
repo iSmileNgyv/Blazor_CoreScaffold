@@ -25,13 +25,12 @@
             && !relativePath.StartsWith("register", StringComparison.OrdinalIgnoreCase)
             && !relativePath.StartsWith("otp", StringComparison.OrdinalIgnoreCase))
         {
-            Navigation.NavigateTo("/login", true);
+            Navigation.NavigateTo("/login");
         }
     }
 
     private void NavigateToLogin()
     {
-        Navigation.NavigateTo("/login", true);
+        Navigation.NavigateTo("/login");
     }
 }
-

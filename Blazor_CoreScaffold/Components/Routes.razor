@@ -1,13 +1,35 @@
+@using System.Reflection
+@using Microsoft.AspNetCore.Authorization
+
 <CascadingAuthenticationState>
     <Router AppAssembly="typeof(Program).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
-                <NotAuthorized>
-                    <LayoutView Layout="typeof(Layout.LoginLayout)">
-                        <Components.Pages.Auth.RedirectToLogin />
-                    </LayoutView>
-                </NotAuthorized>
-            </AuthorizeRouteView>
+            @if (IsAnonymousRoute(routeData.PageType))
+            {
+                <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+            }
+            else
+            {
+                <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+                    <NotAuthorized>
+                        <LayoutView Layout="typeof(Layout.LoginLayout)">
+                            <Components.Pages.Auth.RedirectToLogin />
+                        </LayoutView>
+                    </NotAuthorized>
+                    <Authorizing>
+                        <LayoutView Layout="typeof(Layout.LoginLayout)">
+                            <section class="pa-8">
+                                <MudPaper Class="mx-auto" Style="max-width: 420px;">
+                                    <MudStack Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
+                                        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                                        <MudText Typo="Typo.body1">Yükleniyor...</MudText>
+                                    </MudStack>
+                                </MudPaper>
+                            </section>
+                        </LayoutView>
+                    </Authorizing>
+                </AuthorizeRouteView>
+            }
             <FocusOnNavigate RouteData="routeData" Selector="h1" />
         </Found>
         <NotFound>
@@ -28,3 +50,9 @@
     </Router>
 </CascadingAuthenticationState>
 
+@code {
+    private static bool IsAnonymousRoute(Type pageType)
+    {
+        return pageType.GetCustomAttributes(typeof(AllowAnonymousAttribute), inherit: true).Any();
+    }
+}
