@@ -1,23 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.JSInterop;
 
 namespace Blazor_CoreScaffold.Services.Auth;
 
 public class ServerAuthenticationStateProvider(
-    ProtectedSessionStorage sessionStorage,
     ILogger<ServerAuthenticationStateProvider> logger,
     IHttpContextAccessor httpContextAccessor)
     : AuthenticationStateProvider
 {
-    private const string SessionStorageKey = "auth.session";
+    private const string TokenClaimType = "auth:token";
+    private const string RefreshTokenClaimType = "auth:refresh-token";
     private PendingOtpChallenge? pendingOtpCache;
     private AuthSession? currentSessionCache;
 
@@ -40,20 +39,12 @@ public class ServerAuthenticationStateProvider(
         return new AuthenticationState(principal);
     }
 
-    public async Task<AuthSession?> GetCurrentSessionAsync() => await GetCurrentSessionInternalAsync();
+    public Task<AuthSession?> GetCurrentSessionAsync() => GetCurrentSessionInternalAsync();
 
     public async Task SetSessionAsync(AuthSession session)
     {
         currentSessionCache = session;
 
-        try
-        {
-            await sessionStorage.SetAsync(SessionStorageKey, session);
-        }
-        catch (JSDisconnectedException ex)
-        {
-            logger.LogWarning(ex, "Unable to persist authentication session because the JS runtime is no longer available.");
-        }
         var principal = CreatePrincipal(session);
         await SignInHttpContextAsync(principal);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
@@ -63,14 +54,6 @@ public class ServerAuthenticationStateProvider(
     {
         currentSessionCache = null;
 
-        try
-        {
-            await sessionStorage.DeleteAsync(SessionStorageKey);
-        }
-        catch (JSDisconnectedException ex)
-        {
-            logger.LogWarning(ex, "Unable to clear authentication session from storage because the JS runtime is no longer available.");
-        }
         await SignOutHttpContextAsync();
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()))));
     }
@@ -105,6 +88,16 @@ public class ServerAuthenticationStateProvider(
             new(ClaimTypes.Name, session.User.Username)
         };
 
+        if (!string.IsNullOrWhiteSpace(session.Token))
+        {
+            claims.Add(new Claim(TokenClaimType, session.Token));
+        }
+
+        if (!string.IsNullOrWhiteSpace(session.RefreshToken))
+        {
+            claims.Add(new Claim(RefreshTokenClaimType, session.RefreshToken));
+        }
+
         if (!string.IsNullOrWhiteSpace(session.User.Name))
         {
             claims.Add(new Claim(ClaimTypes.GivenName, session.User.Name));
@@ -132,28 +125,65 @@ public class ServerAuthenticationStateProvider(
         return new ClaimsPrincipal(identity);
     }
 
-    private async Task<AuthSession?> GetCurrentSessionInternalAsync()
+    private Task<AuthSession?> GetCurrentSessionInternalAsync()
     {
         if (currentSessionCache is not null)
         {
-            return currentSessionCache;
+            return Task.FromResult<AuthSession?>(currentSessionCache);
         }
 
-        try
+        var principal = httpContextAccessor.HttpContext?.User;
+        var session = CreateSessionFromPrincipal(principal);
+        if (session is null)
         {
-            var storedSession = await sessionStorage.GetAsync<AuthSession>(SessionStorageKey);
-            if (storedSession.Success)
-            {
-                currentSessionCache = storedSession.Value;
-                return currentSessionCache;
-            }
-        }
-        catch (System.Exception ex)
-        {
-            logger.LogError(ex, "Failed to restore authentication session from storage.");
+            return Task.FromResult<AuthSession?>(null);
         }
 
-        return null;
+        currentSessionCache = session;
+        return Task.FromResult<AuthSession?>(currentSessionCache);
+    }
+
+    private static AuthSession? CreateSessionFromPrincipal(ClaimsPrincipal? principal)
+    {
+        if (principal?.Identity?.IsAuthenticated is not true)
+        {
+            return null;
+        }
+
+        var username = principal.FindFirstValue(ClaimTypes.Name);
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            return null;
+        }
+
+        var idClaim = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (!int.TryParse(idClaim, out var id))
+        {
+            return null;
+        }
+
+        var user = new AuthenticatedUser
+        {
+            Id = id,
+            Username = username,
+            Name = principal.FindFirstValue(ClaimTypes.GivenName),
+            Surname = principal.FindFirstValue(ClaimTypes.Surname),
+            PhoneNumber = principal.FindFirstValue(ClaimTypes.MobilePhone),
+            Roles = principal.FindAll(ClaimTypes.Role)
+                .Where(r => !string.IsNullOrWhiteSpace(r.Value))
+                .Select(r => r.Value)
+                .ToList()
+        };
+
+        var token = principal.FindFirstValue(TokenClaimType) ?? string.Empty;
+        var refreshToken = principal.FindFirstValue(RefreshTokenClaimType) ?? string.Empty;
+
+        return new AuthSession
+        {
+            Token = token,
+            RefreshToken = refreshToken,
+            User = user
+        };
     }
 
     private async Task SignInHttpContextAsync(ClaimsPrincipal principal)
