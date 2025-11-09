@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 
 namespace Blazor_CoreScaffold.Services.Auth;
 
@@ -18,6 +19,7 @@ public class ServerAuthenticationStateProvider(
 {
     private const string SessionStorageKey = "auth.session";
     private const string PendingOtpStorageKey = "auth.pendingOtp";
+    private PendingOtpChallenge? pendingOtpCache;
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -57,23 +59,66 @@ public class ServerAuthenticationStateProvider(
 
     public async Task SetPendingOtpAsync(PendingOtpChallenge challenge)
     {
-        await sessionStorage.SetAsync(PendingOtpStorageKey, challenge);
+        pendingOtpCache = challenge;
+
+        try
+        {
+            await sessionStorage.SetAsync(PendingOtpStorageKey, challenge);
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Circuit disconnected while persisting the pending OTP challenge to session storage.");
+        }
+        catch (System.Exception ex)
+        {
+            logger.LogError(ex, "Failed to persist the pending OTP challenge to session storage.");
+        }
     }
 
     public async Task<PendingOtpChallenge?> GetPendingOtpAsync()
     {
-        var pending = await sessionStorage.GetAsync<PendingOtpChallenge>(PendingOtpStorageKey);
-        if (pending.Success)
+        if (pendingOtpCache is not null)
         {
-            return pending.Value;
+            return pendingOtpCache;
         }
 
-        return null;
+        try
+        {
+            var pending = await sessionStorage.GetAsync<PendingOtpChallenge>(PendingOtpStorageKey);
+            if (pending.Success)
+            {
+                pendingOtpCache = pending.Value;
+                return pending.Value;
+            }
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Circuit disconnected while attempting to read the pending OTP challenge from session storage.");
+        }
+        catch (System.Exception ex)
+        {
+            logger.LogError(ex, "Failed to read the pending OTP challenge from session storage.");
+        }
+
+        return pendingOtpCache;
     }
 
     public async Task ClearPendingOtpAsync()
     {
-        await sessionStorage.DeleteAsync(PendingOtpStorageKey);
+        pendingOtpCache = null;
+
+        try
+        {
+            await sessionStorage.DeleteAsync(PendingOtpStorageKey);
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Circuit disconnected while attempting to clear the pending OTP challenge from session storage.");
+        }
+        catch (System.Exception ex)
+        {
+            logger.LogError(ex, "Failed to clear the pending OTP challenge from session storage.");
+        }
     }
 
     private static ClaimsPrincipal CreatePrincipal(AuthSession session)
