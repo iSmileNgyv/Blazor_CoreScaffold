@@ -66,7 +66,6 @@ public partial class Otp
         {
             Logger.LogWarning(ex, "OTP doğrulama isteği reddedildi. Geçerli bir OTP oturumu bulunamadı.");
             Snackbar.Add("OTP doğrulaması için geçerli bir giriş isteği bulunamadı.", Severity.Warning);
-            NavigationManager.NavigateTo("/login");
         }
         catch (Exception ex)
         {

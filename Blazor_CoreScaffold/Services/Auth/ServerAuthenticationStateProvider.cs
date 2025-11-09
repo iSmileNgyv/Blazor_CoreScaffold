@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 
 namespace Blazor_CoreScaffold.Services.Auth;
 
@@ -18,6 +19,7 @@ public class ServerAuthenticationStateProvider(
 {
     private const string SessionStorageKey = "auth.session";
     private PendingOtpChallenge? pendingOtpCache;
+    private AuthSession? currentSessionCache;
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -42,7 +44,16 @@ public class ServerAuthenticationStateProvider(
 
     public async Task SetSessionAsync(AuthSession session)
     {
-        await sessionStorage.SetAsync(SessionStorageKey, session);
+        currentSessionCache = session;
+
+        try
+        {
+            await sessionStorage.SetAsync(SessionStorageKey, session);
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Unable to persist authentication session because the JS runtime is no longer available.");
+        }
         var principal = CreatePrincipal(session);
         await SignInHttpContextAsync(principal);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
@@ -50,7 +61,16 @@ public class ServerAuthenticationStateProvider(
 
     public async Task ClearSessionAsync()
     {
-        await sessionStorage.DeleteAsync(SessionStorageKey);
+        currentSessionCache = null;
+
+        try
+        {
+            await sessionStorage.DeleteAsync(SessionStorageKey);
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Unable to clear authentication session from storage because the JS runtime is no longer available.");
+        }
         await SignOutHttpContextAsync();
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()))));
     }
@@ -114,12 +134,18 @@ public class ServerAuthenticationStateProvider(
 
     private async Task<AuthSession?> GetCurrentSessionInternalAsync()
     {
+        if (currentSessionCache is not null)
+        {
+            return currentSessionCache;
+        }
+
         try
         {
             var storedSession = await sessionStorage.GetAsync<AuthSession>(SessionStorageKey);
             if (storedSession.Success)
             {
-                return storedSession.Value;
+                currentSessionCache = storedSession.Value;
+                return currentSessionCache;
             }
         }
         catch (System.Exception ex)
