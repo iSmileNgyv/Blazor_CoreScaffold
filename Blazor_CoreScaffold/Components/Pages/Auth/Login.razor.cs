@@ -36,7 +36,7 @@ public partial class Login
         isShowPassword = !isShowPassword;
         PasswordInput = isShowPassword ? InputType.Text : InputType.Password;
     }
-
+    
     private async Task SubmitLogin()
     {
         await form!.Validate();
@@ -51,7 +51,6 @@ public partial class Login
         }
 
         isSubmitting = true;
-
         try
         {
             Logger.LogInformation("Sending login request for {Username}", Username);
@@ -70,11 +69,13 @@ public partial class Login
                 {
                     Snackbar.Add("OTP doğrulaması gerekiyor. Lütfen kodu girin.", Severity.Info);
                     NavigationManager.NavigateTo("/otp");
+                    return; 
                 }
                 else
                 {
                     Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
                     NavigationManager.NavigateTo("/");
+                    return;
                 }
             }
             else
@@ -87,10 +88,8 @@ public partial class Login
             Logger.LogError(ex, "Login request failed for {Username}", Username);
             Snackbar.Add("An unexpected error occurred while processing the login request.", Severity.Error);
         }
-        finally
-        {
-            isSubmitting = false;
-            await InvokeAsync(StateHasChanged);
-        }
+        
+        isSubmitting = false;
+        await InvokeAsync(StateHasChanged);
     }
 }
