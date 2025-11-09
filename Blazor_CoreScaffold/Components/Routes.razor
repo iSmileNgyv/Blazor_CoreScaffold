@@ -1,6 +1,58 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/>
-        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
-    </Found>
-</Router>
+@using System.Reflection
+@using Microsoft.AspNetCore.Authorization
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="typeof(Program).Assembly">
+        <Found Context="routeData">
+            @if (IsAnonymousRoute(routeData.PageType))
+            {
+                <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+            }
+            else
+            {
+                <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+                    <NotAuthorized>
+                        <LayoutView Layout="typeof(Layout.LoginLayout)">
+                            <Components.Pages.Auth.RedirectToLogin />
+                        </LayoutView>
+                    </NotAuthorized>
+                    <Authorizing>
+                        <LayoutView Layout="typeof(Layout.LoginLayout)">
+                            <section class="pa-8">
+                                <MudPaper Class="mx-auto" Style="max-width: 420px;">
+                                    <MudStack Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
+                                        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                                        <MudText Typo="Typo.body1">Yükleniyor...</MudText>
+                                    </MudStack>
+                                </MudPaper>
+                            </section>
+                        </LayoutView>
+                    </Authorizing>
+                </AuthorizeRouteView>
+            }
+            <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="typeof(Layout.LoginLayout)">
+                <section class="pa-8">
+                    <MudPaper Class="mx-auto" Style="max-width: 480px;">
+                        <MudStack Spacing="2">
+                            <MudText Typo="Typo.h5">Sayfa bulunamadı</MudText>
+                            <MudText Typo="Typo.body1">Talep ettiğiniz sayfa mevcut değil. Lütfen oturum açmayı deneyin.</MudText>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/login">
+                                Giriş sayfasına dön
+                            </MudButton>
+                        </MudStack>
+                    </MudPaper>
+                </section>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+@code {
+    private static bool IsAnonymousRoute(Type pageType)
+    {
+        return pageType.GetCustomAttributes(typeof(AllowAnonymousAttribute), inherit: true).Any();
+    }
+}

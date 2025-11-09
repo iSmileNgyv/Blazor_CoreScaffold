@@ -1,4 +1,4 @@
-using API_CoreScaffold.Contracts;
+using Blazor_CoreScaffold.Services.Auth;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -20,13 +20,16 @@ public partial class Login
     private string PasswordVisibilityIcon => isShowPassword ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility;
 
     [Inject]
-    private IAuthService AuthService { get; set; } = default!;
+    private IClientAuthService AuthService { get; set; } = default!;
 
     [Inject]
     private ILogger<Login> Logger { get; set; } = default!;
 
     [Inject]
     private ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
 
     private void TogglePasswordVisibility()
     {
@@ -63,7 +66,16 @@ public partial class Login
 
             if (response.Success)
             {
-                Snackbar.Add("Login request succeeded.", Severity.Success);
+                if (response.OtpRequired)
+                {
+                    Snackbar.Add("OTP doğrulaması gerekiyor. Lütfen kodu girin.", Severity.Info);
+                    NavigationManager.NavigateTo("/otp");
+                }
+                else
+                {
+                    Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
+                    NavigationManager.NavigateTo("/");
+                }
             }
             else
             {
