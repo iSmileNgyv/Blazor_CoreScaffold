@@ -30,7 +30,7 @@ public partial class Otp
         PendingUsername = await ClientAuthService.GetPendingOtpUsernameAsync();
         if (string.IsNullOrWhiteSpace(PendingUsername))
         {
-            NavigationManager.NavigateTo("/login", true);
+            NavigationManager.NavigateTo("/login");
         }
     }
 
@@ -56,7 +56,7 @@ public partial class Otp
             if (response.Success && !response.OtpRequired)
             {
                 Snackbar.Add("OTP doğrulandı. Hoş geldiniz!", Severity.Success);
-                NavigationManager.NavigateTo("/", true);
+                NavigationManager.NavigateTo("/");
                 return;
             }
 
@@ -66,7 +66,7 @@ public partial class Otp
         {
             Logger.LogWarning(ex, "OTP doğrulama isteği reddedildi. Geçerli bir OTP oturumu bulunamadı.");
             Snackbar.Add("OTP doğrulaması için geçerli bir giriş isteği bulunamadı.", Severity.Warning);
-            NavigationManager.NavigateTo("/login", true);
+            NavigationManager.NavigateTo("/login");
         }
         catch (Exception ex)
         {
@@ -82,6 +82,6 @@ public partial class Otp
 
     private void NavigateBack()
     {
-        NavigationManager.NavigateTo("/login", true);
+        NavigationManager.NavigateTo("/login");
     }
 }

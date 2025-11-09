@@ -69,12 +69,12 @@ public partial class Login
                 if (response.OtpRequired)
                 {
                     Snackbar.Add("OTP doğrulaması gerekiyor. Lütfen kodu girin.", Severity.Info);
-                    NavigationManager.NavigateTo("/otp", true);
+                    NavigationManager.NavigateTo("/otp");
                 }
                 else
                 {
                     Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
-                    NavigationManager.NavigateTo("/", true);
+                    NavigationManager.NavigateTo("/");
                 }
             }
             else
