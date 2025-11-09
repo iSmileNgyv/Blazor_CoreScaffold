@@ -2,7 +2,10 @@ using API_CoreScaffold.Contracts;
 using API_CoreScaffold.Services;
 using Auth;
 using Blazor_CoreScaffold.Components;
+using Blazor_CoreScaffold.Services.Auth;
 using MudBlazor.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+builder.Services.AddScoped<ProtectedSessionStorage>();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<ServerAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp =>
+    sp.GetRequiredService<ServerAuthenticationStateProvider>());
+builder.Services.AddScoped<IClientAuthService, ClientAuthService>();
 builder.Services.AddScoped<IAuthService, AuthClientService>();
 
 // Register the gRPC client generated from auth.proto

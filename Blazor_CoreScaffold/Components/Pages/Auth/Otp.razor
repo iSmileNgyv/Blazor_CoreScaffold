@@ -1,0 +1,74 @@
+@page "/otp"
+@layout LoginLayout
+@attribute [AllowAnonymous]
+@rendermode InteractiveServer
+
+<PageTitle>OTP Doğrulama</PageTitle>
+
+<div class="login-shell">
+    <section class="login-hero">
+        <div class="login-hero__content">
+            <div class="login-hero__logo">
+                <MudIcon Icon="@Icons.Material.Filled.VerifiedUser" Size="Size.Large" />
+            </div>
+            <MudText Typo="Typo.h4" Class="login-hero__title">OTP Doğrulama</MudText>
+            <MudText Typo="Typo.body1" Align="Align.Center" Class="login-hero__subtitle">
+                Lütfen telefonunuza gönderilen tek kullanımlık şifreyi girin.
+            </MudText>
+        </div>
+    </section>
+
+    <section class="login-panel">
+        <div class="login-panel__inner">
+            <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4">
+                @if (!string.IsNullOrEmpty(PendingUsername))
+                {
+                    <text>@PendingUsername kullanıcısı için doğrulama</text>
+                }
+                else
+                {
+                    <text>Oturum açabilmek için OTP kodu gerekli</text>
+                }
+            </MudText>
+
+            <MudForm @ref="form" @bind-IsValid="success" OnSubmit="SubmitOtp" Class="login-form">
+                <MudTextField T="string"
+                              Label="OTP Kodu"
+                              @bind-Value="OtpCode"
+                              Required="true"
+                              RequiredError="OTP kodu gereklidir!"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.None"
+                              InputType="InputType.Text"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Key"
+                              Class="login-input"
+                              Immediate="true"
+                              MaxLength="6"
+                              />
+
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           OnClick="SubmitOtp"
+                           Disabled="@(!success || isSubmitting)"
+                           Loading="@isSubmitting"
+                           FullWidth="true"
+                           Class="login-submit">
+                    Doğrula ve Giriş Yap
+                </MudButton>
+
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Default"
+                           FullWidth="true"
+                           Disabled="isSubmitting"
+                           OnClick="NavigateBack"
+                           Class="mt-2">
+                    Giriş sayfasına dön
+                </MudButton>
+            </MudForm>
+        </div>
+    </section>
+</div>
+

@@ -54,4 +54,44 @@ public class AuthClientService(
             };
         }
     }
+
+    public async Task<AuthResponse> VerifyOtpAndLoginAsync(string username, string otpCode)
+    {
+        try
+        {
+            var request = new VerifyOtpLoginRequest
+            {
+                Username = username,
+                OtpCode = otpCode
+            };
+
+            logger.LogInformation("Attempting gRPC OTP verification for user: {Username}", username);
+
+            var response = await grpcClient.VerifyOtpAndLoginAsync(request);
+
+            return response;
+        }
+        catch (RpcException rpcEx)
+        {
+            logger.LogError(rpcEx,
+                "gRPC error during OTP verification for {Username}. Status: {Status}, Detail: {Detail}",
+                username, rpcEx.StatusCode, rpcEx.Status.Detail);
+
+            return new AuthResponse
+            {
+                Success = false,
+                Message = $"Error connecting to service: {rpcEx.Status.Detail ?? rpcEx.Message}"
+            };
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Unexpected error during OTP verification for {Username}", username);
+
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "An unexpected error occurred."
+            };
+        }
+    }
 }

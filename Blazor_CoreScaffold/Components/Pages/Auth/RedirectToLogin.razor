@@ -1,0 +1,37 @@
+@using System
+@inherits ComponentBase
+
+@inject NavigationManager Navigation
+
+<section class="pa-8">
+    <MudPaper Class="mx-auto" Style="max-width: 420px;">
+        <MudStack Spacing="2">
+            <MudText Typo="Typo.h5">Oturum açmanız gerekiyor</MudText>
+            <MudText Typo="Typo.body1">
+                Bu içeriğe erişebilmek için lütfen yönetici hesabınızla oturum açın.
+            </MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToLogin">
+                Giriş sayfasına git
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+</section>
+
+@code {
+    protected override void OnInitialized()
+    {
+        var relativePath = Navigation.ToBaseRelativePath(Navigation.Uri);
+        if (!relativePath.StartsWith("login", StringComparison.OrdinalIgnoreCase)
+            && !relativePath.StartsWith("register", StringComparison.OrdinalIgnoreCase)
+            && !relativePath.StartsWith("otp", StringComparison.OrdinalIgnoreCase))
+        {
+            Navigation.NavigateTo("/login", true);
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("/login", true);
+    }
+}
+
