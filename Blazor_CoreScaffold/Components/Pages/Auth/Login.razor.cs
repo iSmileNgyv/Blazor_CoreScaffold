@@ -68,12 +68,16 @@ public partial class Login
                 if (response.OtpRequired)
                 {
                     Snackbar.Add("OTP doğrulaması gerekiyor. Lütfen kodu girin.", Severity.Info);
+                    isSubmitting = false;
+                    await InvokeAsync(StateHasChanged);
                     NavigationManager.NavigateTo("/otp");
-                    return; 
+                    return;
                 }
                 else
                 {
                     Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
+                    isSubmitting = false;
+                    await InvokeAsync(StateHasChanged);
                     NavigationManager.NavigateTo("/");
                     return;
                 }
