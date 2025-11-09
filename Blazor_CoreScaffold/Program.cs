@@ -1,3 +1,6 @@
+using API_CoreScaffold.Contracts;
+using API_CoreScaffold.Services;
+using Auth;
 using Blazor_CoreScaffold.Components;
 using MudBlazor.Services;
 
@@ -7,13 +10,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+builder.Services.AddScoped<IAuthService, AuthClientService>();
+
+// Register the gRPC client generated from auth.proto
+builder.Services.AddGrpcClient<AuthService.AuthServiceClient>(options =>
+    {
+        options.Address = new Uri("http://localhost:5051"); 
+    })
+    .ConfigurePrimaryHttpMessageHandler(() =>
+    {
+        var handler = new HttpClientHandler
+        {
+            // Allow insecure HTTP/2 connections
+            ServerCertificateCustomValidationCallback = 
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+        return handler;
+    });
+// *** END ADDED/MODIFIED SECTION ***
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 app.UseHttpsRedirection();
