@@ -17,7 +17,7 @@ public class ServerAuthenticationStateProvider(
     : AuthenticationStateProvider
 {
     private const string SessionStorageKey = "auth.session";
-    private const string PendingOtpStorageKey = "auth.pendingOtp";
+    private PendingOtpChallenge? pendingOtpCache;
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -55,25 +55,21 @@ public class ServerAuthenticationStateProvider(
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()))));
     }
 
-    public async Task SetPendingOtpAsync(PendingOtpChallenge challenge)
+    public Task SetPendingOtpAsync(PendingOtpChallenge challenge)
     {
-        await sessionStorage.SetAsync(PendingOtpStorageKey, challenge);
+        pendingOtpCache = challenge;
+        return Task.CompletedTask;
     }
 
-    public async Task<PendingOtpChallenge?> GetPendingOtpAsync()
+    public Task<PendingOtpChallenge?> GetPendingOtpAsync()
     {
-        var pending = await sessionStorage.GetAsync<PendingOtpChallenge>(PendingOtpStorageKey);
-        if (pending.Success)
-        {
-            return pending.Value;
-        }
-
-        return null;
+        return Task.FromResult(pendingOtpCache);
     }
 
-    public async Task ClearPendingOtpAsync()
+    public Task ClearPendingOtpAsync()
     {
-        await sessionStorage.DeleteAsync(PendingOtpStorageKey);
+        pendingOtpCache = null;
+        return Task.CompletedTask;
     }
 
     private static ClaimsPrincipal CreatePrincipal(AuthSession session)

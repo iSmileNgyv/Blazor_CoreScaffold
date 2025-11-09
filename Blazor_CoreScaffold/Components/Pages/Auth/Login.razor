@@ -1,5 +1,3 @@
-@using System.ComponentModel.DataAnnotations
-@using Blazor_CoreScaffold.Components.Layout
 @page "/login"
 @layout LoginLayout
 @attribute [AllowAnonymous]
@@ -67,7 +65,7 @@
                              Class="login-form__forgot">Forgot Password?</MudLink>
                 </div>
 
-                <MudButton ButtonType="ButtonType.Submit"
+                <MudButton ButtonType="ButtonType.Button"
                            Variant="Variant.Filled"
                            Color="Color.Primary"
                            Size="Size.Large"
