@@ -69,23 +69,19 @@ public partial class Login
                 {
                     Snackbar.Add("OTP doğrulaması gerekiyor. Lütfen kodu girin.", Severity.Info);
                     isSubmitting = false;
-                    await InvokeAsync(StateHasChanged);
-                    NavigationManager.NavigateTo("/otp");
+                    await InvokeAsync(async () =>
+                    {
+                        if (NavigationManager.Uri != NavigationManager.ToAbsoluteUri("/otp").ToString())
+                            NavigationManager.NavigateTo("/otp");
+                    });
                     return;
                 }
-                else
-                {
-                    Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
-                    isSubmitting = false;
-                    await InvokeAsync(StateHasChanged);
-                    NavigationManager.NavigateTo("/");
-                    return;
-                }
+                Snackbar.Add("Başarıyla giriş yapıldı.", Severity.Success);
+                isSubmitting = false;
+                await InvokeAsync(() => NavigationManager.NavigateTo("/"));
+                return;
             }
-            else
-            {
-                Snackbar.Add(response.Message ?? "Login failed.", Severity.Error);
-            }
+            Snackbar.Add(response.Message ?? "Login failed.", Severity.Error);
         }
         catch (Exception ex)
         {
