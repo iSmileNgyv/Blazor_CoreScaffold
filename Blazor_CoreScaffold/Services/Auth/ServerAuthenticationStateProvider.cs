@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 
 namespace Blazor_CoreScaffold.Services.Auth;
 
@@ -42,7 +43,7 @@ public class ServerAuthenticationStateProvider(
 
     public async Task SetSessionAsync(AuthSession session)
     {
-        await sessionStorage.SetAsync(SessionStorageKey, session);
+        await TryStoreSessionAsync(session);
         var principal = CreatePrincipal(session);
         await SignInHttpContextAsync(principal);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
@@ -50,7 +51,7 @@ public class ServerAuthenticationStateProvider(
 
     public async Task ClearSessionAsync()
     {
-        await sessionStorage.DeleteAsync(SessionStorageKey);
+        await TryDeleteSessionAsync();
         await SignOutHttpContextAsync();
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()))));
     }
@@ -128,6 +129,34 @@ public class ServerAuthenticationStateProvider(
         }
 
         return null;
+    }
+
+    private async Task<bool> TryStoreSessionAsync(AuthSession session)
+    {
+        try
+        {
+            await sessionStorage.SetAsync(SessionStorageKey, session);
+            return true;
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Unable to persist authentication session because the JS runtime is disconnected.");
+            return false;
+        }
+    }
+
+    private async Task<bool> TryDeleteSessionAsync()
+    {
+        try
+        {
+            await sessionStorage.DeleteAsync(SessionStorageKey);
+            return true;
+        }
+        catch (JSDisconnectedException ex)
+        {
+            logger.LogWarning(ex, "Unable to clear authentication session because the JS runtime is disconnected.");
+            return false;
+        }
     }
 
     private async Task SignInHttpContextAsync(ClaimsPrincipal principal)
