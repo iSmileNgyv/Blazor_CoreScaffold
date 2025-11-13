@@ -9,6 +9,7 @@ public partial class Otp
     private MudForm? form;
     private bool success;
     private bool isSubmitting;
+    private bool hasValidChallenge;
 
     private string OtpCode { get; set; } = string.Empty;
     protected string? PendingUsername { get; private set; }
@@ -28,14 +29,22 @@ public partial class Otp
     protected override async Task OnInitializedAsync()
     {
         PendingUsername = await ClientAuthService.GetPendingOtpUsernameAsync();
-        if (string.IsNullOrWhiteSpace(PendingUsername))
+        hasValidChallenge = !string.IsNullOrWhiteSpace(PendingUsername);
+
+        if (!hasValidChallenge)
         {
-            NavigationManager.NavigateTo("/login");
+            Snackbar.Add("OTP doğrulaması için geçerli bir giriş isteği bulunamadı. Lütfen tekrar giriş yapın.", Severity.Warning);
         }
     }
 
     private async Task SubmitOtp()
     {
+        if (!hasValidChallenge)
+        {
+            Snackbar.Add("OTP doğrulaması için önce giriş sayfasından tekrar giriş yapın.", Severity.Warning);
+            return;
+        }
+
         await form!.Validate();
         if (!success)
         {
@@ -66,7 +75,8 @@ public partial class Otp
         {
             Logger.LogWarning(ex, "OTP doğrulama isteği reddedildi. Geçerli bir OTP oturumu bulunamadı.");
             Snackbar.Add("OTP doğrulaması için geçerli bir giriş isteği bulunamadı.", Severity.Warning);
-            NavigationManager.NavigateTo("/login");
+            hasValidChallenge = false;
+            PendingUsername = null;
         }
         catch (Exception ex)
         {

@@ -138,14 +138,24 @@ public class ServerAuthenticationStateProvider(
             return;
         }
 
+        if (context.Response.HasStarted)
+        {
+            logger.LogDebug("Skipping HTTP context sign-in because the response has already started.");
+            context.User = principal;
+            return;
+        }
+
         try
         {
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            context.User = principal;
         }
         catch (System.Exception ex)
         {
             logger.LogError(ex, "Failed to sign in HTTP context principal.");
+        }
+        finally
+        {
+            context.User = principal;
         }
     }
 
@@ -157,14 +167,24 @@ public class ServerAuthenticationStateProvider(
             return;
         }
 
+        if (context.Response.HasStarted)
+        {
+            logger.LogDebug("Skipping HTTP context sign-out because the response has already started.");
+            context.User = new ClaimsPrincipal(new ClaimsIdentity());
+            return;
+        }
+
         try
         {
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            context.User = new ClaimsPrincipal(new ClaimsIdentity());
         }
         catch (System.Exception ex)
         {
             logger.LogError(ex, "Failed to sign out HTTP context principal.");
+        }
+        finally
+        {
+            context.User = new ClaimsPrincipal(new ClaimsIdentity());
         }
     }
 }
